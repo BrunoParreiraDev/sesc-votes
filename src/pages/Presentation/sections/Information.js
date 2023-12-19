@@ -20,11 +20,11 @@ import Grid from "@mui/material/Grid";
 // Material Kit 2 React components
 import MKBox from "components/MKBox";
 
-// Material Kit 2 React examples
-import RotatingCard from "examples/Cards/RotatingCard";
-import RotatingCardFront from "examples/Cards/RotatingCard/RotatingCardFront";
-import RotatingCardBack from "examples/Cards/RotatingCard/RotatingCardBack";
-import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
+// Material Kit 2 React layouts/utils
+import RotatingCard from "layouts/utils/Cards/RotatingCard";
+import RotatingCardFront from "layouts/utils/Cards/RotatingCard/RotatingCardFront";
+import RotatingCardBack from "layouts/utils/Cards/RotatingCard/RotatingCardBack";
+import DefaultInfoCard from "layouts/utils/Cards/InfoCards/DefaultInfoCard";
 
 // Images
 import bgFront from "assets/images/rotating-card-bg-front.jpeg";
@@ -32,7 +32,7 @@ import bgBack from "assets/images/rotating-card-bg-back.jpeg";
 
 function Information() {
   return (
-    <MKBox component="section" py={6} my={6}>
+    <MKBox component="section" py={6} my={2}>
       <Container>
         <Grid container item xs={11} spacing={3} alignItems="center" sx={{ mx: "auto" }}>
           <Grid item xs={12} lg={4} sx={{ mx: "auto" }}>
@@ -42,21 +42,21 @@ function Information() {
                 icon="touch_app"
                 title={
                   <>
-                    Feel the
+                    Sinta o Poder dos
                     <br />
-                    Material Kit
+                    SESC Votes
                   </>
                 }
-                description="All the MUI components that you need in a development have been re-design with the new look."
+                description="Com esta plataforma totalmente gratuita, você pode realizar coisas absolutamente inimagináveis."
               />
               <RotatingCardBack
                 image={bgBack}
-                title="Discover More"
-                description="You will save a lot of time going from prototyping to full-functional code because all elements are implemented."
+                title="Vindo em Breve"
+                description="Planejamos criar uma nova seção na qual você terá acesso aos horários das aulas, os tópicos abordados em cada uma delas, e também poderá visualizar as tarefas de casa."
                 action={{
                   type: "internal",
-                  route: "/sections/page-sections/page-headers",
-                  label: "start with header",
+                  route: "https://brunin12.netlify.app",
+                  label: "Apoiar esta seção",
                 }}
               />
             </RotatingCard>
@@ -65,33 +65,32 @@ function Information() {
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
                 <DefaultInfoCard
-                  icon="content_copy"
-                  title="Full Documentation"
-                  description="Built by developers for developers. Check the foundation and you will find
-                    everything inside our documentation."
+                  icon="people_alt"
+                  title="Controle de Votação"
+                  description="Diminua o Peso de ter que fazer todo o trabalho pesado da votação e deixe esta parte conosco!"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
                 <DefaultInfoCard
-                  icon="flip_to_front"
-                  title="MUI Ready"
-                  description="The world's most popular react components library for building user interfaces."
+                  icon="poll"
+                  title="Visualização Grafica"
+                  description="Vamos apreciar a beleza dos gráficos do SESC Votes e deixar de lado a leitura de números monótonos."
                 />
               </Grid>
             </Grid>
             <Grid container spacing={3} sx={{ mt: { xs: 0, md: 6 } }}>
               <Grid item xs={12} md={6}>
                 <DefaultInfoCard
-                  icon="price_change"
-                  title="Save Time & Money"
-                  description="Creating your design from scratch with dedicated designers can be very expensive. Start with our Design System."
+                  icon="menu_book"
+                  title="Dever de Casa"
+                  description="Agora, não há mais desculpas para esquecer as tarefas de casa; tudo está na palma da sua mão."
                 />
               </Grid>
               <Grid item xs={12} md={6}>
                 <DefaultInfoCard
                   icon="devices"
-                  title="Fully Responsive"
-                  description="Regardless of the screen size, the website content will naturally fit the given resolution."
+                  title="Facil de Aplicar"
+                  description="Não há desculpas para não utilizar este site, afinal, é grátis!"
                 />
               </Grid>
             </Grid>

@@ -36,8 +36,7 @@ import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
 
 // Material Kit 2 React example components
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
-import SimpleFooter from "examples/Footers/SimpleFooter";
+import DefaultNavbar from "layouts/utils/Navbars/DefaultNavbar";
 
 // Material Kit 2 React page layout routes
 import routes from "routes";
@@ -56,8 +55,8 @@ function SignInBasic() {
         routes={routes}
         action={{
           type: "external",
-          route: "https://www.creative-tim.com/product/material-kit-react",
-          label: "free download",
+          route: "https://sescbahia.com.br",
+          label: "Visitar o SESC",
           color: "info",
         }}
         transparent
@@ -147,7 +146,7 @@ function SignInBasic() {
                       Don&apos;t have an account?{" "}
                       <MKTypography
                         component={Link}
-                        to="/authentication/sign-up/cover"
+                        to="/system/register"
                         variant="button"
                         color="info"
                         fontWeight="medium"
@@ -162,9 +161,6 @@ function SignInBasic() {
             </Card>
           </Grid>
         </Grid>
-      </MKBox>
-      <MKBox width="100%" position="absolute" zIndex={2} bottom="1.625rem">
-        <SimpleFooter light />
       </MKBox>
     </>
   );

@@ -46,19 +46,20 @@ function BuiltByDevelopers() {
       <Container>
         <Grid container item xs={12} lg={6} sx={{ ml: { xs: 0, lg: 6 } }}>
           <MKTypography variant="h4" color="white" fontWeight="bold">
-            Built by developers
+            Construido pela equipe:
           </MKTypography>
           <MKTypography variant="h1" color="white" mb={1}>
-            Complex Documentation
+            BrunoSoft Inc.
           </MKTypography>
           <MKTypography variant="body1" color="white" opacity={0.8} mb={2}>
-            From colors, cards, typography to complex elements, you will find the full
-            documentation. Play with the utility classes and you will create unlimited combinations
-            for our components.
+            Nosso site oferece uma experiência única ao proporcionar acesso simplificado a
+            informações essenciais. Com um design intuitivo, navegabilidade descomplicada e recursos
+            abrangentes, é o seu guia completo. Desde horários de aulas até tarefas de casa, nosso
+            objetivo é simplificar sua rotina escolar.
           </MKTypography>
           <MKTypography
             component="a"
-            href="https://www.creative-tim.com/learning-lab/react/overview/material-kit/"
+            href="https://brunin12.netlify.app"
             target="_blank"
             rel="noreferrer"
             variant="body2"
@@ -79,7 +80,7 @@ function BuiltByDevelopers() {
               },
             }}
           >
-            Read docs <Icon sx={{ fontWeight: "bold" }}>arrow_forward</Icon>
+            Saiba Mais <Icon sx={{ fontWeight: "bold" }}>arrow_forward</Icon>
           </MKTypography>
         </Grid>
       </Container>

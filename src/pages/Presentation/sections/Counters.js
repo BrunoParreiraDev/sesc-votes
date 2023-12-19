@@ -21,8 +21,8 @@ import Divider from "@mui/material/Divider";
 // Material Kit 2 React components
 import MKBox from "components/MKBox";
 
-// Material Kit 2 React examples
-import DefaultCounterCard from "examples/Cards/CounterCards/DefaultCounterCard";
+// Material Kit 2 React layouts/utils
+import DefaultCounterCard from "layouts/utils/Cards/CounterCards/DefaultCounterCard";
 
 function Counters() {
   return (
@@ -31,27 +31,31 @@ function Counters() {
         <Grid container item xs={12} lg={9} sx={{ mx: "auto" }}>
           <Grid item xs={12} md={4}>
             <DefaultCounterCard
-              count={70}
-              suffix="+"
-              title="Coded Elements"
-              description="From buttons, to inputs, navbars, alerts or cards, you are covered"
+              count={90}
+              prefix="+ "
+              suffix="%"
+              title="Seguro e Poderoso"
+              description="Encriptação dos Votos e Tecnologia de Bloqueio na Edição ou Acréscimo de Votos na API."
             />
           </Grid>
           <Grid item xs={12} md={4} display="flex">
             <Divider orientation="vertical" sx={{ display: { xs: "none", md: "block" }, mx: 0 }} />
             <DefaultCounterCard
-              count={15}
-              suffix="+"
-              title="Design Blocks"
-              description="Mix the sections, change the colors and unleash your creativity"
+              count={80}
+              prefix="+ "
+              suffix="%"
+              title="Medidas Protetivas"
+              description="Auto-Bloqueio Estratégico do Banco de Dados para Prevenir SQL Injection."
             />
             <Divider orientation="vertical" sx={{ display: { xs: "none", md: "block" }, ml: 0 }} />
           </Grid>
           <Grid item xs={12} md={4}>
             <DefaultCounterCard
-              count={4}
-              title="Pages"
-              description="Save 3-4 weeks of work when you use our pre-made pages for your website"
+              count={100}
+              prefix="+ "
+              suffix="%"
+              title="Segurança de Dados"
+              description="Proteção Eficiente de Dados em Parceria com o Firebase da Google"
             />
           </Grid>
         </Grid>
