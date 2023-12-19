@@ -1,17 +1,22 @@
 {
-  "name": "material-kit-2-react",
-  "version": "2.1.0",
+  "name": "sesc-votes",
+  "version": "1.0.0",
   "private": true,
-  "author": "Creative Tim",
-  "license": "See license in https://www.creative-tim.com/license",
-  "description": "React version of Material Kit 2 by Creative Tim",
-  "homepage": "https://demos.creative-tim.com/material-kit-react/#/",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/ct-material-kit-react/issues"
-  },
+  "author": "BrunoSoft",
+  "description": "Um Sistema Feito para Facilitar a Votação no SESC",
+  "license": "MIT",
+  "homepage": "/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creativetimofficial/ct-material-kit-react.git"
+    "url": "git+https://github.com/brunin12/sesc-votes.git"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src",
+    "prettify": "prettier --write ."
   },
   "dependencies": {
     "@emotion/cache": "11.10.7",
@@ -35,14 +40,6 @@
     "react-scripts": "5.0.1",
     "react-syntax-highlighter": "15.5.0",
     "web-vitals": "3.3.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint ./src",
-    "prettify": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [

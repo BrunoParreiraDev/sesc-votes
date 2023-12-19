@@ -59,7 +59,7 @@ function DesignBlocks() {
   ));
 
   return (
-    <MKBox component="section" my={6} py={6}>
+    <MKBox component="section" my={2} py={6}>
       <Container>
         <Grid
           container
@@ -73,16 +73,16 @@ function DesignBlocks() {
           <MKBadge
             variant="contained"
             color="info"
-            badgeContent="Infinite combinations"
+            badgeContent="Usando a Plataforma"
             container
             sx={{ mb: 2 }}
           />
           <MKTypography variant="h2" fontWeight="bold">
-            Huge collection of sections
+            Hora da Ação!
           </MKTypography>
           <MKTypography variant="body1" color="text">
-            We have created multiple options for you to put together and customise into pixel
-            perfect pages.
+            Ótimo, agora que você já conhece todos os benefícios em termos de tempo, dinheiro e
+            eficiência, vamos partir para a aplicação!
           </MKTypography>
         </Grid>
       </Container>

@@ -18,6 +18,8 @@ import { useEffect } from "react";
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
+import DefaultNavbar from "layouts/utils/Navbars/DefaultNavbar";
+
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -53,6 +55,16 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <DefaultNavbar
+        routes={routes}
+        action={{
+          type: "external",
+          route: "https://sescbahia.com.br",
+          label: "Visitar o SESC",
+          color: "info",
+        }}
+        sticky
+      />
       <CssBaseline />
       <Routes>
         {getRoutes(routes)}
