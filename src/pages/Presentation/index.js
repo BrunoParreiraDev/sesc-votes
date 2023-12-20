@@ -107,33 +107,35 @@ function Presentation() {
                 description="Veja como fazer o Sistema funcionar e como configurar o habiente para a votação."
                 action={{
                   type: "external",
-                  route: "#",
+                  route: "docs/enviroment",
                   label: "Vamos começar!",
                 }}
               />
             </Grid>
             <Grid item xs={12} lg={4}>
               <FilledInfoCard
-                color="info"
+                variant="gradient"
+                color="success"
                 icon="precision_manufacturing"
                 title="Primeira Votação"
                 description="Vamos entender o funcionamento do sistema e como a proteção dele é importante"
                 action={{
                   type: "external",
-                  route: "#",
+                  route: "docs/vote",
                   label: "Vamos Começar!",
                 }}
               />
             </Grid>
             <Grid item xs={12} lg={4}>
               <FilledInfoCard
-                color="info"
+                variant="gradient"
+                color="dark"
                 icon="apps"
                 title="Sou Professor"
                 description="Se você é um professor, este tutorial foi especialmente elaborado para auxiliá-lo nessa situação específica."
                 action={{
                   type: "external",
-                  route: "#",
+                  route: "dosc/teacher",
                   label: "Ler Mais",
                 }}
               />
