@@ -26,7 +26,7 @@ import Next from "pages/LandingPages/docs/Vote/sections/Next";
 
 import footerRoutes from "footer.routes";
 
-function Vote() {
+function VoteDocs() {
   return (
     <>
       <MKBox
@@ -49,4 +49,4 @@ function Vote() {
   );
 }
 
-export default Vote;
+export default VoteDocs;

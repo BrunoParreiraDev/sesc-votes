@@ -23,11 +23,13 @@ import MKBox from "components/MKBox";
 // Material Kit 2 React layouts/utils
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
 
-// Presentation page sections
+// Vote page sections
+import Urn from "./sections/urn";
+import Candidates from "./sections/candidates";
 
 import footerRoutes from "footer.routes";
 
-function Presentation() {
+function Vote() {
   return (
     <>
       <Card
@@ -41,7 +43,10 @@ function Presentation() {
           boxShadow: ({ boxShadows: { xxl } }) => xxl,
         }}
       >
-        <Container></Container>
+        <Container>
+          <Urn />
+          <Candidates />
+        </Container>
       </Card>
       <MKBox pt={6} px={1} mt={6}>
         <CenteredFooter content={footerRoutes} />
@@ -50,4 +55,4 @@ function Presentation() {
   );
 }
 
-export default Presentation;
+export default Vote;
