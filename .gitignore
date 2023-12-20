@@ -8,7 +8,7 @@
 /coverage
 
 # production
-/src/layout/utils/FireBase
+
 /build
 
 # misc
