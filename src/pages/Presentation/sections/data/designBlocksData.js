@@ -50,7 +50,7 @@ export default [
         route: "/docs/vote",
       },
       {
-        image: `${imagesPrefix}/vote.png`,
+        image: `${imagesPrefix}/teacher.png`,
         name: "Para Professores",
         route: "/docs/teacher",
       },

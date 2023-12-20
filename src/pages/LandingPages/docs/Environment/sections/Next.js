@@ -39,8 +39,8 @@ function Next() {
               color="info"
               variant="gradient"
               icon="precision_manufacturing"
-              title="Como funciona a Votação"
-              description="Vamos entender o funcionamento da votação e como ver os resultados e exportar graficos em CSV ou PDF."
+              title="Como Votar"
+              description="Vamos entender o funciona a votação para lider e vice lider."
               action={{
                 type: "internal",
                 route: "../docs/vote",
