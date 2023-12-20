@@ -36,10 +36,10 @@ function DesignBlocks() {
     <Grid container spacing={3} sx={{ mb: 10 }} key={title}>
       <Grid item xs={12} lg={3}>
         <MKBox position="sticky" top="100px" pb={{ xs: 2, lg: 6 }}>
-          <MKTypography variant="h3" fontWeight="bold" mb={1}>
+          <MKTypography variant="h3" color="white" fontWeight="bold" mb={1}>
             {title}
           </MKTypography>
-          <MKTypography variant="body2" fontWeight="regular" color="secondary" mb={1} pr={2}>
+          <MKTypography variant="body2" color="white" fontWeight="regular" mb={1} pr={2}>
             {description}
           </MKTypography>
         </MKBox>
@@ -49,7 +49,7 @@ function DesignBlocks() {
           {items.map(({ image, name, count, route, pro }) => (
             <Grid item xs={12} md={4} sx={{ mb: 2 }} key={name}>
               <Link to={pro ? "/" : route}>
-                <ExampleCard image={image} name={name} count={count} pro={pro} />
+                <ExampleCard image={image} name={name} count={count} pro={pro} color="white" />
               </Link>
             </Grid>
           ))}
@@ -59,7 +59,15 @@ function DesignBlocks() {
   ));
 
   return (
-    <MKBox component="section" my={2} py={6}>
+    <MKBox
+      component="section"
+      variant="gradient"
+      bgColor="dark"
+      position="relative"
+      py={6}
+      px={{ xs: 2, lg: 0 }}
+      mx={-2}
+    >
       <Container>
         <Grid
           container
@@ -72,15 +80,15 @@ function DesignBlocks() {
         >
           <MKBadge
             variant="contained"
-            color="info"
+            color="white"
             badgeContent="Usando a Plataforma"
             container
             sx={{ mb: 2 }}
           />
-          <MKTypography variant="h2" fontWeight="bold">
+          <MKTypography variant="h2" color="white" fontWeight="bold">
             Hora da Ação!
           </MKTypography>
-          <MKTypography variant="body1" color="text">
+          <MKTypography variant="body1" color="white">
             Ótimo, agora que você já conhece todos os benefícios em termos de tempo, dinheiro e
             eficiência, vamos partir para a aplicação!
           </MKTypography>
