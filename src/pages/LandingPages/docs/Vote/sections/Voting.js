@@ -34,10 +34,10 @@ function Voting() {
       <Container>
         <Grid container>
           <Grid item xs={12} md={8} sx={{ mb: 6 }}>
-            <MKTypography variant="h3" color="info">
+            <MKTypography variant="h3" color="success">
               Como Votar
             </MKTypography>
-            <MKTypography variant="body2" color="info" opacity={0.8}>
+            <MKTypography variant="body2" color="success" opacity={0.8}>
               Um tutorial rápido para exercer seu voto com sucesso
             </MKTypography>
           </Grid>
@@ -51,7 +51,7 @@ function Voting() {
               p={3}
               variant="gradient"
               borderRadius="10px"
-              bgColor="info"
+              bgColor="success"
             >
               <p>
                 1. Aproxime-se da urna eletrônica e encontre o teclado ou interface disponível.
@@ -65,7 +65,7 @@ function Voting() {
               p={3}
               variant="gradient"
               borderRadius="10px"
-              bgColor="info"
+              bgColor="success"
             >
               <p>
                 2. Após inserir o número, confira se as informações e a foto do candidato
@@ -79,7 +79,7 @@ function Voting() {
               p={3}
               variant="gradient"
               borderRadius="10px"
-              bgColor="info"
+              bgColor="success"
             >
               <p>
                 3. Confirme seu voto se estiver correto. Caso contrário, cancele e refaça o
@@ -93,7 +93,7 @@ function Voting() {
               p={3}
               variant="gradient"
               borderRadius="10px"
-              bgColor="info"
+              bgColor="success"
             >
               <p>
                 4. Aguarde a confirmação final na tela da urna eletrônica, indicando que seu voto
@@ -107,7 +107,7 @@ function Voting() {
               p={3}
               variant="gradient"
               borderRadius="10px"
-              bgColor="info"
+              bgColor="success"
             >
               <p>
                 5. Siga atentamente as instruções fornecidas na urna para garantir a precisão e

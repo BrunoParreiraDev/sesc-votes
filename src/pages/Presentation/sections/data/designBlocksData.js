@@ -49,6 +49,11 @@ export default [
         name: "Votação",
         route: "/docs/vote",
       },
+      {
+        image: `${imagesPrefix}/vote.png`,
+        name: "Para Professores",
+        route: "/docs/teacher",
+      },
     ],
   },
   {
