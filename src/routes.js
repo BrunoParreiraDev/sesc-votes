@@ -19,6 +19,7 @@ import AboutUs from "layouts/pages/landing-pages/docs/about-us";
 import Environment from "layouts/pages/landing-pages/docs/environment";
 import Vote from "layouts/pages/landing-pages/docs/vote";
 import Teacher from "layouts/pages/landing-pages/docs/teacher";
+import Register from "layouts/pages/landing-pages/system/register";
 import SignIn from "layouts/pages/authentication/sign-in";
 
 const routes = [
@@ -78,6 +79,11 @@ const routes = [
             name: "Votar",
             route: "/system/vote",
             component: <SignIn />,
+          },
+          {
+            name: "Registrar candidato",
+            route: "/system/register",
+            component: <Register />,
           },
           {
             name: "Resultados",
