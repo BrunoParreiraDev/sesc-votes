@@ -23,6 +23,11 @@ export default [
         route: "/system/vote",
       },
       {
+        image: `${imagesPrefix}/register.png`,
+        name: "Cadastrar Candidato",
+        route: "/system/register",
+      },
+      {
         image: `${imagesPrefix}/about.png`,
         name: "Resultados",
         route: "/system/results",
