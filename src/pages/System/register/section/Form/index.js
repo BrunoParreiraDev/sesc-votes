@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
@@ -38,16 +39,39 @@ function Form({ onSend }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const candidateData = {
       name: document.getElementById("name").value,
       slogan: document.getElementById("slogan").value,
       class: document.getElementById("class").value,
       image: image,
     };
-    onSend(candidateData);
-    console.log("Dados do Candidato:", candidateData);
+
+    // Resetar os campos
+    document.getElementById("name").value = "";
+    document.getElementById("slogan").value = "";
+    document.getElementById("class").value = "";
+    setImage("");
+
+    try {
+      await onSend(candidateData);
+      console.log("Dados do Candidato:", candidateData);
+
+      Swal.fire({
+        icon: "success",
+        title: "Sucesso!",
+        text: "Candidato cadastrado com sucesso!",
+      });
+    } catch (error) {
+      console.error("Erro ao cadastrar candidato:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Erro!",
+        text: "Ocorreu um erro ao cadastrar o candidato.",
+      });
+    }
   };
 
   return (

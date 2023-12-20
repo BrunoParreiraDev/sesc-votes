@@ -17,9 +17,10 @@ import Icon from "@mui/material/Icon";
 // Pages
 import AboutUs from "layouts/pages/landing-pages/docs/about-us";
 import Environment from "layouts/pages/landing-pages/docs/environment";
-import Vote from "layouts/pages/landing-pages/docs/vote";
+import VoteDocs from "layouts/pages/landing-pages/docs/vote";
 import Teacher from "layouts/pages/landing-pages/docs/teacher";
 import Register from "layouts/pages/landing-pages/system/register";
+import Vote from "layouts/pages/landing-pages/system/vote";
 import SignIn from "layouts/pages/authentication/sign-in";
 
 const routes = [
@@ -45,7 +46,7 @@ const routes = [
           {
             name: "Votação",
             route: "/docs/vote",
-            component: <Vote />,
+            component: <VoteDocs />,
           },
           {
             name: "Professor",
@@ -73,12 +74,12 @@ const routes = [
     rowsPerColumn: 2,
     collapse: [
       {
-        name: "Urna",
+        name: "Votar",
         collapse: [
           {
             name: "Votar",
             route: "/system/vote",
-            component: <SignIn />,
+            component: <Vote />,
           },
           {
             name: "Registrar candidato",
