@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import Swal from "sweetalert2";
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
@@ -9,16 +9,16 @@ import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
 import footerRoutes from "footer.routes";
-
-// Integração com o Firebase (substitua pelas suas credenciais e métodos)
-//const firebaseConfig = {};
+import { initializeApp } from "firebase/app";
+import firebaseConfig from "layouts/utils/FireBase";
+import { getFirestore, collection, doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
 
 function Form({ onSend }) {
   const [image, setImage] = useState("");
-  // Variável para armazenar a classe selecionada no dropdown
   const [selectedClass, setSelectedClass] = useState("");
 
-  // Função para lidar com as mudanças no dropdown de classe
+  const app = initializeApp(firebaseConfig);
+
   const handleClassChange = (event) => {
     setSelectedClass(event.target.value);
   };
@@ -39,6 +39,31 @@ function Form({ onSend }) {
     }
   };
 
+  async function getNextId() {
+    const db = getFirestore(app);
+    const counterDocRef = doc(collection(db, "candidates"), "counter");
+    console.log(counterDocRef);
+
+    try {
+      const counterDoc = await getDoc(counterDocRef);
+      console.log(counterDoc);
+
+      if (counterDoc.exists()) {
+        const currentId = counterDoc.data().id;
+        console.log(currentId);
+        const nextId = currentId + 1;
+        await updateDoc(counterDocRef, { id: nextId });
+        return nextId;
+      } else {
+        await setDoc(counterDocRef, { id: 0 });
+        return 0;
+      }
+    } catch (error) {
+      console.error("Error getting next ID:", error);
+      throw new Error("Error getting next ID");
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -47,9 +72,10 @@ function Form({ onSend }) {
       slogan: document.getElementById("slogan").value,
       class: document.getElementById("class").value,
       image: image,
+      votes: 0,
+      id: await getNextId(),
     };
 
-    // Resetar os campos
     document.getElementById("name").value = "";
     document.getElementById("slogan").value = "";
     document.getElementById("class").value = "";
@@ -123,12 +149,12 @@ function Form({ onSend }) {
                   <option value="" disabled>
                     Selecione a Turma
                   </option>
-                  <option value="7A">7 (A)</option>
-                  <option value="7B">7 (B)</option>
-                  <option value="8A">8 (A)</option>
-                  <option value="8B">8 (B)</option>
-                  <option value="9A">9 (A)</option>
-                  <option value="9B">9 (B)</option>
+                  <option value="7 (A)">7 (A)</option>
+                  <option value="7 (B)">7 (B)</option>
+                  <option value="8 (A)">8 (A)</option>
+                  <option value="8 (B)">8 (B)</option>
+                  <option value="9 (A)">9 (A)</option>
+                  <option value="9 (B)">9 (B)</option>
                 </select>
               </Grid>
               <Grid item xs={12}>
@@ -146,5 +172,9 @@ function Form({ onSend }) {
     </>
   );
 }
+
+Form.propTypes = {
+  onSend: PropTypes.func.isRequired,
+};
 
 export default Form;
