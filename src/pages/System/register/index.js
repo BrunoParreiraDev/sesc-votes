@@ -12,7 +12,6 @@ function Register() {
   const db = getFirestore(app);
 
   async function handleBackend(data) {
-    console.log("tentativa de upload iniciada");
     try {
       const docRef = await addDoc(collection(db, "candidates"), data);
       console.log("Document written with ID: ", docRef.id);
