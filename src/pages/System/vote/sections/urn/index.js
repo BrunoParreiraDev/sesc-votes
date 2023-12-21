@@ -6,14 +6,19 @@ import { getFirestore, updateDoc, doc, getDoc, getDocs, collection } from "fireb
 import firebaseConfig from "layouts/utils/FireBase";
 import MKButton from "components/MKButton";
 import MKBox from "components/MKBox";
+import UrnBip from "assets/urna.mp3";
 
 function Urn() {
   const [inputValue, setInputValue] = useState("");
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [confirmedCandidate, setConfirmedCandidate] = useState(null);
   const [candidates, setCandidates] = useState([]);
+  const [showEnd, setShowEnd] = useState(false);
 
   useEffect(() => {
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     async function fetchCandidates() {
       try {
         const querySnapshot = await getDocs(collection(db, "candidates"));
@@ -29,16 +34,21 @@ function Urn() {
     fetchCandidates();
   }, []);
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const playSound = () => {
+    const audio = new Audio(UrnBip);
+    audio.play();
+  };
 
   const handleNumberClick = (number) => {
-    setInputValue(inputValue + number);
+    setInputValue((prevInput) => prevInput + number);
   };
 
   const handleVote = async () => {
     if (!selectedCandidate) return;
-    console.log(selectedCandidate);
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     const candidateDocRef = doc(db, "candidates", selectedCandidate.id);
     const candidateDoc = await getDoc(candidateDocRef);
 
@@ -46,6 +56,8 @@ function Urn() {
       const currentVotes = candidateDoc.data().votes || 0;
       await updateDoc(candidateDocRef, { votes: currentVotes + 1 });
       console.log("Voto registrado com sucesso!");
+      setShowEnd(true);
+      playSound();
     } else {
       console.error("Candidato não encontrado!");
     }
@@ -55,26 +67,28 @@ function Urn() {
     setInputValue("");
     setSelectedCandidate(null);
     setConfirmedCandidate(null);
+    setShowEnd(false);
   };
 
   const handleBlankVote = () => {
-    setConfirmedCandidate("Voto em Branco, confirmar?");
+    setConfirmedCandidate("Votar Branco?");
+    setSelectedCandidate({ id: 0, name: "Voto em Branco" });
   };
 
   const handleConfirmVote = async () => {
-    if (
-      confirmedCandidate === "Voto Nulo, confirmar?" ||
-      confirmedCandidate === "Voto em Branco, confirmar?"
-    ) {
+    if (confirmedCandidate === "Votar Branco?") {
       setConfirmedCandidate(null);
-      return;
-    }
-
-    const candidate = candidates.find((c) => c.id === inputValue);
-    if (candidate) {
-      setSelectedCandidate(candidate);
+    } else if (confirmedCandidate === "Votar Nulo?") {
+      setSelectedCandidate("Voto Nulo");
+      setConfirmedCandidate(null);
     } else {
-      setConfirmedCandidate("Voto Nulo, confirmar?");
+      const candidate = candidates.find((c) => c.id === parseInt(inputValue));
+      if (candidate) {
+        setSelectedCandidate(candidate);
+      } else {
+        setConfirmedCandidate("Votar Nulo?");
+        return;
+      }
     }
 
     await handleVote();
@@ -87,7 +101,6 @@ function Urn() {
 
     setInputValue("");
     setSelectedCandidate(null);
-    setConfirmedCandidate(null);
   };
 
   return (
@@ -105,7 +118,11 @@ function Urn() {
             Urna Eletrônica
           </Typography>
           <Typography variant="h3" style={{ color: "white" }} gutterBottom>
-            {selectedCandidate ? selectedCandidate.name : confirmedCandidate || inputValue}
+            {showEnd
+              ? "FIM"
+              : selectedCandidate
+              ? selectedCandidate.name
+              : confirmedCandidate || inputValue}
           </Typography>
           <Grid container spacing={2} justifyContent="center">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, "Branco", 0, "Corrige"].map((number) => (
