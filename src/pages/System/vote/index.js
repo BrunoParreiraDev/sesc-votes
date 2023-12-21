@@ -1,35 +1,19 @@
-/*
-=========================================================
-* Material Kit 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-kit-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
+import React from "react";
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
-
-// Material Kit 2 React components
 import MKBox from "components/MKBox";
-
-// Material Kit 2 React layouts/utils
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
-
-// Vote page sections
-import Urn from "./sections/urn";
-import Candidates from "./sections/candidates";
-
+import firebaseConfig from "layouts/utils/FireBase";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import Urn from "./sections/Urn";
+import Candidates from "./sections/Candidates";
 import footerRoutes from "footer.routes";
 
 function Vote() {
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
   return (
     <>
       <Card
@@ -45,8 +29,8 @@ function Vote() {
         }}
       >
         <Container>
-          <Urn />
-          <Candidates />
+          <Urn db={db} />
+          <Candidates db={db} />
         </Container>
       </Card>
       <MKBox pt={6} px={1} mt={6}>

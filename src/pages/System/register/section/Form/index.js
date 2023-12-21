@@ -14,27 +14,29 @@ import firebaseConfig from "layouts/utils/FireBase";
 import { getFirestore, collection, doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
 
 function Form({ onSend }) {
-  const [image, setImage] = useState("");
-  const [selectedClass, setSelectedClass] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    slogan: "",
+    selectedClass: "",
+    image: "",
+  });
 
   const app = initializeApp(firebaseConfig);
 
-  const handleClassChange = (event) => {
-    setSelectedClass(event.target.value);
+  const handleInputChange = (event) => {
+    const { id, value } = event.target;
+    setFormData({ ...formData, [id]: value });
   };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-
     if (file) {
       const reader = new FileReader();
-
       reader.onloadend = () => {
         if (reader.readyState === FileReader.DONE) {
-          setImage(reader.result);
+          setFormData({ ...formData, image: reader.result });
         }
       };
-
       reader.readAsDataURL(file);
     }
   };
@@ -42,15 +44,12 @@ function Form({ onSend }) {
   async function getNextId() {
     const db = getFirestore(app);
     const counterDocRef = doc(collection(db, "candidates"), "counter");
-    console.log(counterDocRef);
 
     try {
       const counterDoc = await getDoc(counterDocRef);
-      console.log(counterDoc);
 
       if (counterDoc.exists()) {
         const currentId = counterDoc.data().id;
-        console.log(currentId);
         const nextId = currentId + 1;
         await updateDoc(counterDocRef, { id: nextId });
         return nextId;
@@ -68,23 +67,15 @@ function Form({ onSend }) {
     e.preventDefault();
 
     const candidateData = {
-      name: document.getElementById("name").value,
-      slogan: document.getElementById("slogan").value,
-      class: document.getElementById("class").value,
-      image: image,
+      ...formData,
       votes: 0,
       id: await getNextId(),
     };
 
-    document.getElementById("name").value = "";
-    document.getElementById("slogan").value = "";
-    document.getElementById("class").value = "";
-    setImage("");
+    setFormData({ name: "", slogan: "", selectedClass: "", image: "" });
 
     try {
       await onSend(candidateData);
-      console.log("Dados do Candidato:", candidateData);
-
       Swal.fire({
         icon: "success",
         title: "Sucesso!",
@@ -109,7 +100,7 @@ function Form({ onSend }) {
               id="preview-avatar"
               sx={{ width: 120, height: 120, margin: "0 auto 20px", cursor: "pointer" }}
               alt="Candidate Photo"
-              src={image}
+              src={formData.image}
             />
           </label>
           <form onSubmit={handleSubmit}>
@@ -128,16 +119,26 @@ function Form({ onSend }) {
                   id="name"
                   variant="outlined"
                   required
+                  value={formData.name}
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
-                <MKInput fullWidth placeholder="Slogan" id="slogan" variant="outlined" required />
+                <MKInput
+                  fullWidth
+                  placeholder="Slogan"
+                  id="slogan"
+                  variant="outlined"
+                  required
+                  value={formData.slogan}
+                  onChange={handleInputChange}
+                />
               </Grid>
               <Grid item xs={12}>
                 <select
-                  id="class"
-                  value={selectedClass}
-                  onChange={handleClassChange}
+                  id="selectedClass"
+                  value={formData.selectedClass}
+                  onChange={handleInputChange}
                   style={{
                     width: "100%",
                     padding: "12px",
