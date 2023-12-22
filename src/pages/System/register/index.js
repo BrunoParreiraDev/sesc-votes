@@ -1,6 +1,6 @@
 import React from "react";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import Card from "@mui/material/Card";
 import MKBox from "components/MKBox";
 import Form from "./section/Form";
@@ -14,7 +14,8 @@ function Register() {
 
   const handleBackend = async (data) => {
     try {
-      const docRef = await addDoc(collection(db, "candidates"), data);
+      const docRef = doc(db, "candidates", String(data.id));
+      await setDoc(docRef, data);
       console.log("Document written with ID: ", docRef.id);
     } catch (error) {
       console.error("Error adding document: ", error);
@@ -36,8 +37,8 @@ function Register() {
         }}
       >
         <Form
-          onSend={() => {
-            handleBackend;
+          onSend={(data) => {
+            handleBackend(data);
           }}
         />
       </Card>

@@ -17,7 +17,7 @@ function Form({ onSend }) {
   const [formData, setFormData] = useState({
     name: "",
     slogan: "",
-    selectedClass: "",
+    class: "",
     image: "",
   });
 
@@ -72,7 +72,7 @@ function Form({ onSend }) {
       id: await getNextId(),
     };
 
-    setFormData({ name: "", slogan: "", selectedClass: "", image: "" });
+    setFormData({ name: "", slogan: "", class: "", image: "" });
 
     try {
       await onSend(candidateData);
@@ -136,8 +136,8 @@ function Form({ onSend }) {
               </Grid>
               <Grid item xs={12}>
                 <select
-                  id="selectedClass"
-                  value={formData.selectedClass}
+                  id="class"
+                  value={formData.class}
                   onChange={handleInputChange}
                   style={{
                     width: "100%",
