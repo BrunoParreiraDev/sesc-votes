@@ -24,7 +24,7 @@ function Candidates() {
         const querySnapshot = await getDocs(collection(db, "candidates"));
 
         const candidatesData = querySnapshot.docs
-          .filter((doc) => doc.data().name) // Filtrar documentos com o campo 'name'
+          .filter((doc) => doc.data().name)
           .map((doc) => ({
             id: doc.id,
             ...doc.data(),

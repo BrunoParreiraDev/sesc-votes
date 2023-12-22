@@ -49,6 +49,8 @@ function Urn() {
 
   const handleNumberClick = (number) => {
     setShowEnd(false);
+    setSelectedCandidate(null);
+    setConfirmedCandidate(null);
     setInputValue((prevInput) => prevInput + number);
   };
 
@@ -81,17 +83,19 @@ function Urn() {
   };
 
   const handleBlankVote = () => {
-    setSelectedCandidate({ id: -1, name: "Voto Branco" });
-    handleVote(); // Votar em branco imediatamente
+    setSelectedCandidate({ id: 0, name: "Voto Branco" });
+    handleVote();
   };
 
   const handleConfirmVote = () => {
     if (confirmedCandidate === "Votar Branco?") {
+      setConfirmedCandidate({ id: 0, name: "Branco" });
       setShowEnd(true);
       playSound();
     } else if (confirmedCandidate === "Votar Nulo?") {
-      setSelectedCandidate({ id: -1, name: "Voto Nulo" });
-      handleVote();
+      setConfirmedCandidate({ id: 0, name: "Voto Nulo" });
+      setShowEnd(true);
+      playSound();
     } else {
       const candidate = candidates.find((c) => {
         return c.id.toString() === inputValue;
@@ -142,6 +146,7 @@ function Urn() {
               confirmedCandidate || inputValue
             )}
           </Typography>
+
           <Grid container spacing={2} justifyContent="center">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, "Branco", 0, "Corrige"].map((number) => (
               <Grid key={number} item xs={4} md={3}>
@@ -171,7 +176,7 @@ function Urn() {
                 color="light"
                 onClick={handleConfirmVote}
               >
-                {confirmedCandidate ? "Confirmar" : "Confirma"}
+                Confirma
               </MKButton>
             </Grid>
           </Grid>
