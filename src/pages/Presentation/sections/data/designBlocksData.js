@@ -18,7 +18,7 @@ export default [
     description: "Este é o lugar onde a magia acontece.",
     items: [
       {
-        image: `${imagesPrefix}/about.png`,
+        image: `${imagesPrefix}/urn.png`,
         name: "Iniciar Votação",
         route: "/system/vote",
       },

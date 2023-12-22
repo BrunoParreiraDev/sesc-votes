@@ -6,8 +6,8 @@ import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
 import firebaseConfig from "layouts/utils/FireBase";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import Urn from "./sections/urn";
-import Candidates from "./sections/candidates";
+import Urn from "./sections/Urn";
+import Candidates from "./sections/Candidates";
 import footerRoutes from "footer.routes";
 
 function Vote() {
