@@ -28,11 +28,19 @@ function Urn() {
         }));
         setCandidates(candidates);
       } catch (error) {
-        console.error("Error fetching candidates: ", error);
+        console.error("Error getting documents: ", error);
       }
     }
     fetchCandidates();
   }, []);
+
+  useEffect(() => {
+    const handleConfirmedCandidate = async () => {
+      await handleVote();
+    };
+
+    handleConfirmedCandidate();
+  }, [confirmedCandidate]);
 
   const playSound = () => {
     const audio = new Audio(UrnBip);
@@ -40,26 +48,28 @@ function Urn() {
   };
 
   const handleNumberClick = (number) => {
+    setShowEnd(false);
     setInputValue((prevInput) => prevInput + number);
   };
 
   const handleVote = async () => {
-    if (!selectedCandidate) return;
-
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const candidateDocRef = doc(db, "candidates", selectedCandidate.id);
-    const candidateDoc = await getDoc(candidateDocRef);
+    if (selectedCandidate) {
+      const candidateDocRef = doc(db, "candidates", String(selectedCandidate.id || "0"));
+      const candidateDoc = await getDoc(candidateDocRef);
 
-    if (candidateDoc.exists()) {
-      const currentVotes = candidateDoc.data().votes || 0;
-      await updateDoc(candidateDocRef, { votes: currentVotes + 1 });
-      console.log("Voto registrado com sucesso!");
-      setShowEnd(true);
-      playSound();
+      if (candidateDoc.exists()) {
+        const currentVotes = parseInt(candidateDoc.data().votes || 0, 10);
+        await updateDoc(candidateDocRef, { votes: currentVotes + 1 });
+        setShowEnd(true);
+        playSound();
+      } else {
+        console.warn("No such document!");
+      }
     } else {
-      console.error("Candidato não encontrado!");
+      console.warn("No candidate selected!");
     }
   };
 
@@ -71,36 +81,31 @@ function Urn() {
   };
 
   const handleBlankVote = () => {
-    setConfirmedCandidate("Votar Branco?");
-    setSelectedCandidate({ id: 0, name: "Voto em Branco" });
+    setSelectedCandidate({ id: -1, name: "Voto Branco" });
+    handleVote(); // Votar em branco imediatamente
   };
 
-  const handleConfirmVote = async () => {
+  const handleConfirmVote = () => {
     if (confirmedCandidate === "Votar Branco?") {
-      setConfirmedCandidate(null);
+      setShowEnd(true);
+      playSound();
     } else if (confirmedCandidate === "Votar Nulo?") {
-      setSelectedCandidate("Voto Nulo");
-      setConfirmedCandidate(null);
+      setSelectedCandidate({ id: -1, name: "Voto Nulo" });
+      handleVote();
     } else {
-      const candidate = candidates.find((c) => c.id === parseInt(inputValue));
+      const candidate = candidates.find((c) => {
+        return c.id.toString() === inputValue;
+      });
+
       if (candidate) {
         setSelectedCandidate(candidate);
+        setConfirmedCandidate(selectedCandidate); // Atualiza confirmedCandidate com o candidato selecionado
+        setInputValue("");
       } else {
         setConfirmedCandidate("Votar Nulo?");
-        return;
+        setInputValue("");
       }
     }
-
-    await handleVote();
-
-    if (selectedCandidate) {
-      console.log(`Voto confirmado para: ${selectedCandidate.name}`);
-    } else {
-      console.log("Voto confirmado em branco ou nulo");
-    }
-
-    setInputValue("");
-    setSelectedCandidate(null);
   };
 
   return (
@@ -118,11 +123,24 @@ function Urn() {
             Urna Eletrônica
           </Typography>
           <Typography variant="h3" style={{ color: "white" }} gutterBottom>
-            {showEnd
-              ? "FIM"
-              : selectedCandidate
-              ? selectedCandidate.name
-              : confirmedCandidate || inputValue}
+            {showEnd ? (
+              "FIM"
+            ) : selectedCandidate ? (
+              <>
+                <Typography variant="body1" style={{ color: "white" }} gutterBottom>
+                  Deseja votar em {selectedCandidate.name}?
+                </Typography>
+                {selectedCandidate.image && (
+                  <img
+                    src={selectedCandidate.image}
+                    alt={selectedCandidate.name}
+                    style={{ maxWidth: "200px", maxHeight: "200px" }}
+                  />
+                )}
+              </>
+            ) : (
+              confirmedCandidate || inputValue
+            )}
           </Typography>
           <Grid container spacing={2} justifyContent="center">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, "Branco", 0, "Corrige"].map((number) => (
