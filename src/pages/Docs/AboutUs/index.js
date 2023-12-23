@@ -25,9 +25,9 @@ import MKTypography from "components/MKTypography";
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
 
 // About Us page sections
-import Information from "pages/LandingPages/docs/AboutUs/sections/Information";
-import Team from "pages/LandingPages/docs/AboutUs/sections/Team";
-import Featuring from "pages/LandingPages/docs/AboutUs/sections/Featuring";
+import Information from "pages/Docs/AboutUs/sections/Information";
+import Team from "pages/Docs/AboutUs/sections/Team";
+import Featuring from "pages/Docs/AboutUs/sections/Featuring";
 
 // Routes
 import footerRoutes from "footer.routes";

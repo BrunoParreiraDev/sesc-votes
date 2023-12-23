@@ -2,9 +2,8 @@ import Swal from "sweetalert2";
 import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { initializeApp } from "firebase/app";
 import { getFirestore, updateDoc, doc, getDoc, getDocs, collection } from "firebase/firestore";
-import firebaseConfig from "layouts/utils/FireBase";
+import { app } from "services/FirebaseConfig";
 import MKButton from "components/MKButton";
 import MKBox from "components/MKBox";
 import UrnBip from "assets/urna.mp3";
@@ -17,8 +16,6 @@ function Urn() {
   const [showEnd, setShowEnd] = useState(false);
 
   useEffect(() => {
-    const app = initializeApp(firebaseConfig);
-
     async function fetchCandidates(selectedClass) {
       try {
         const db = getFirestore(app);
@@ -98,7 +95,6 @@ function Urn() {
   };
 
   const handleVote = async () => {
-    const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
     if (selectedCandidate) {

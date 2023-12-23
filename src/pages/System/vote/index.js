@@ -3,15 +3,13 @@ import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import MKBox from "components/MKBox";
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
-import firebaseConfig from "layouts/utils/FireBase";
-import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { app } from "services/FirebaseConfig";
 import Urn from "./sections/urn";
 import Candidates from "./sections/candidates";
 import footerRoutes from "footer.routes";
 
 function Vote() {
-  const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
   return (

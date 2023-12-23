@@ -14,8 +14,8 @@ Coded by www.creative-tim.com
 */
 
 // Material Kit 2 React pages
-import Vote from "pages/LandingPages/docs/Vote";
+import Teacher from "pages/Docs/Teacher";
 
-export default function VotePage() {
-  return <Vote />;
+export default function TeacherPage() {
+  return <Teacher />;
 }

@@ -19,13 +19,13 @@ import MKBox from "components/MKBox";
 // Material Kit 2 React layouts/utils
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
 
-// Environment page sections
-import Class from "pages/LandingPages/docs/Environment/sections/Class";
-import Next from "pages/LandingPages/docs/Environment/sections/Next";
+// Teacher page sections
+import Class from "pages/Docs/Teacher/sections/Class";
+import Next from "pages/Docs/Teacher/sections/Next";
 
 import footerRoutes from "footer.routes";
 
-function Environment() {
+function Teacher() {
   return (
     <>
       <MKBox
@@ -47,4 +47,4 @@ function Environment() {
   );
 }
 
-export default Environment;
+export default Teacher;
