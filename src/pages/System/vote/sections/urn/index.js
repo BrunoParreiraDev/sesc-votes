@@ -81,7 +81,7 @@ function Urn() {
   };
 
   const handleBlankVote = () => {
-    setSelectedCandidate({ id: -1, name: "Voto Branco" });
+    setSelectedCandidate({ id: 0, name: "Voto Branco" });
     handleVote(); // Votar em branco imediatamente
   };
 
@@ -90,8 +90,8 @@ function Urn() {
       setShowEnd(true);
       playSound();
     } else if (confirmedCandidate === "Votar Nulo?") {
-      setSelectedCandidate({ id: -1, name: "Voto Nulo" });
-      handleVote();
+      setShowEnd(true);
+      playSound();
     } else {
       const candidate = candidates.find((c) => {
         return c.id.toString() === inputValue;
