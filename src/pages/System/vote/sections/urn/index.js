@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -17,11 +18,18 @@ function Urn() {
 
   useEffect(() => {
     const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
 
-    async function fetchCandidates() {
+    async function fetchCandidates(selectedClass) {
       try {
-        const querySnapshot = await getDocs(collection(db, "candidates"));
+        const db = getFirestore(app);
+        let query = collection(db, "candidates");
+
+        // Verifique se uma classe foi selecionada antes de aplicar o filtro
+        if (selectedClass) {
+          query = query.where("selectedClass", "==", selectedClass);
+        }
+
+        const querySnapshot = await getDocs(query);
         const candidates = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -31,7 +39,42 @@ function Urn() {
         console.error("Error getting documents: ", error);
       }
     }
-    fetchCandidates();
+
+    const showClassSelection = async () => {
+      const { value: selectedClass } = await Swal.mixin({
+        input: "select",
+        inputOptions: {
+          "7 (A)": "7 (A)",
+          "7 (B)": "7 (B)",
+          "8 (A)": "8 (A)",
+          "8 (B)": "8 (B)",
+          // Adicione outras opções conforme necessário
+        },
+        inputPlaceholder: "Selecione a Turma",
+        confirmButtonText: "Selecionar",
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+      }).queue([
+        {
+          title: "Selecione a Turma",
+          confirmButtonText: "Selecionar",
+          showCancelButton: true,
+        },
+      ]);
+
+      if (selectedClass) {
+        // O usuário selecionou uma turma, utilize o valor de selectedClass aqui
+        console.log("Turma selecionada:", selectedClass);
+        fetchCandidates(selectedClass);
+      } else {
+        // Usuário cancelou a seleção
+        console.log("Seleção cancelada");
+        setCandidates([]);
+      }
+    };
+
+    // Chame a função para mostrar o SweetAlert
+    showClassSelection();
   }, []);
 
   useEffect(() => {
@@ -80,18 +123,26 @@ function Urn() {
     setShowEnd(false);
   };
 
+  const handleOption = () => {
+    setShowEnd(true);
+    playSound();
+    setConfirmedCandidate(null);
+    setSelectedCandidate(null);
+    setTimeout(() => setShowEnd(false), 1000);
+  };
+
   const handleBlankVote = () => {
     setSelectedCandidate({ id: 0, name: "Voto Branco" });
     handleVote(); // Votar em branco imediatamente
   };
 
   const handleConfirmVote = () => {
+    setShowEnd(false);
+    setInputValue("");
     if (confirmedCandidate === "Votar Branco?") {
-      setShowEnd(true);
-      playSound();
+      handleOption();
     } else if (confirmedCandidate === "Votar Nulo?") {
-      setShowEnd(true);
-      playSound();
+      handleOption();
     } else {
       const candidate = candidates.find((c) => {
         return c.id.toString() === inputValue;
@@ -144,7 +195,7 @@ function Urn() {
           </Typography>
           <Grid container spacing={2} justifyContent="center">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, "Branco", 0, "Corrige"].map((number) => (
-              <Grid key={number} item xs={4} md={3}>
+              <Grid key={number} item xs={3} lg={4}>
                 <MKButton
                   variant="gradient"
                   color={
@@ -165,7 +216,15 @@ function Urn() {
                   }}
                   fullWidth
                 >
-                  {number}
+                  <Typography
+                    variant="h5"
+                    style={{
+                      color: number === "Branco" ? "dark" : "white",
+                    }}
+                    gutterBottom
+                  >
+                    {number}
+                  </Typography>
                 </MKButton>
               </Grid>
             ))}
@@ -177,7 +236,15 @@ function Urn() {
                 color="success"
                 onClick={handleConfirmVote}
               >
-                Confirma
+                <Typography
+                  variant="h5"
+                  style={{
+                    color: "white",
+                  }}
+                  gutterBottom
+                >
+                  Confirma
+                </Typography>
               </MKButton>
             </Grid>
           </Grid>

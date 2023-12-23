@@ -76,7 +76,10 @@ function Candidates() {
               <Grid container spacing={2}>
                 <Grid item xs={12} lg={9}>
                   <MKTypography color="light" variant="h4">
-                    {candidate.name} - {candidate.id}
+                    {candidate.name}
+                  </MKTypography>
+                  <MKTypography color="light" variant="subtitle1">
+                    Número: {candidate.id}
                   </MKTypography>
                   <MKTypography color="light" variant="subtitle1">
                     Turma: {candidate.class}
