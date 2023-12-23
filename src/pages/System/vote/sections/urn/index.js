@@ -84,7 +84,11 @@ function Urn() {
 
   const handleBlankVote = () => {
     setSelectedCandidate({ id: 0, name: "Voto Branco" });
+<<<<<<< HEAD
     handleVote();
+=======
+    handleVote(); // Votar em branco imediatamente
+>>>>>>> 7078a79d153abd4f36cf6878438e5badaad0a7dc
   };
 
   const handleConfirmVote = () => {
@@ -93,7 +97,10 @@ function Urn() {
       setShowEnd(true);
       playSound();
     } else if (confirmedCandidate === "Votar Nulo?") {
+<<<<<<< HEAD
       setConfirmedCandidate({ id: 0, name: "Voto Nulo" });
+=======
+>>>>>>> 7078a79d153abd4f36cf6878438e5badaad0a7dc
       setShowEnd(true);
       playSound();
     } else {
@@ -152,7 +159,13 @@ function Urn() {
               <Grid key={number} item xs={4} md={3}>
                 <MKButton
                   variant="gradient"
-                  color="light"
+                  color={
+                    number === "Corrige"
+                      ? "warning"
+                      : number === "Branco" || number === "Confirma"
+                      ? "light"
+                      : "secondary"
+                  }
                   onClick={() => {
                     if (number === "Branco") {
                       handleBlankVote();
@@ -173,7 +186,7 @@ function Urn() {
                 size="small"
                 fullWidth
                 variant="gradient"
-                color="light"
+                color="success"
                 onClick={handleConfirmVote}
               >
                 Confirma
