@@ -92,6 +92,8 @@ function Urn() {
 
   const handleNumberClick = (number) => {
     setShowEnd(false);
+    setSelectedCandidate(null);
+    setConfirmedCandidate(null);
     setInputValue((prevInput) => prevInput + number);
   };
 
@@ -133,7 +135,7 @@ function Urn() {
 
   const handleBlankVote = () => {
     setSelectedCandidate({ id: 0, name: "Voto Branco" });
-    handleVote(); // Votar em branco imediatamente
+    handleVote();
   };
 
   const handleConfirmVote = () => {
@@ -150,7 +152,7 @@ function Urn() {
 
       if (candidate) {
         setSelectedCandidate(candidate);
-        setConfirmedCandidate(selectedCandidate); // Atualiza confirmedCandidate com o candidato selecionado
+        setConfirmedCandidate(selectedCandidate);
         setInputValue("");
       } else {
         setConfirmedCandidate("Votar Nulo?");
@@ -193,6 +195,7 @@ function Urn() {
               confirmedCandidate || inputValue
             )}
           </Typography>
+
           <Grid container spacing={2} justifyContent="center">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, "Branco", 0, "Corrige"].map((number) => (
               <Grid key={number} item xs={3} lg={4}>
