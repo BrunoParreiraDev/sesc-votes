@@ -488,38 +488,20 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
             {renderNavbarItems}
           </MKBox>
           <MKBox ml={{ xs: "auto", lg: 0 }}>
-            {action &&
-              (action.type === "internal" ? (
-                <MKButton
-                  component={Link}
-                  to={action.route}
-                  variant={
-                    action.color === "white" || action.color === "default"
-                      ? "contained"
-                      : "gradient"
-                  }
-                  color={action.color ? action.color : "info"}
-                  size="small"
-                >
-                  {action.label}
-                </MKButton>
-              ) : (
-                <MKButton
-                  component="a"
-                  href={action.route}
-                  target="_blank"
-                  rel="noreferrer"
-                  variant={
-                    action.color === "white" || action.color === "default"
-                      ? "contained"
-                      : "gradient"
-                  }
-                  color={action.color ? action.color : "info"}
-                  size="small"
-                >
-                  {action.label}
-                </MKButton>
-              ))}
+            {action && (
+              <MKButton
+                component={Link}
+                to={action.route}
+                onClick={action.onClick}
+                variant={
+                  action.color === "white" || action.color === "default" ? "contained" : "gradient"
+                }
+                color={action.color ? action.color : "info"}
+                size="small"
+              >
+                {action.label}
+              </MKButton>
+            )}
           </MKBox>
           <MKBox
             display={{ xs: "inline-block", lg: "none" }}
@@ -568,8 +550,8 @@ DefaultNavbar.propTypes = {
   action: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.shape({
-      type: PropTypes.oneOf(["external", "internal"]).isRequired,
       route: PropTypes.string.isRequired,
+      onClick: PropTypes.func.isRequired,
       color: PropTypes.oneOf([
         "primary",
         "secondary",

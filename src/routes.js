@@ -21,7 +21,6 @@ import VoteDocs from "layouts/pages/docs/vote";
 import Teacher from "layouts/pages/docs/teacher";
 import Register from "layouts/pages/system/register";
 import Vote from "layouts/pages/system/vote";
-import SignIn from "layouts/pages/authentication/sign-in";
 
 const routes = [
   {
@@ -55,16 +54,6 @@ const routes = [
           },
         ],
       },
-      {
-        name: "Perfil",
-        collapse: [
-          {
-            name: "Entrar",
-            route: "/sign-in",
-            component: <SignIn />,
-          },
-        ],
-      },
     ],
   },
   {
@@ -89,7 +78,7 @@ const routes = [
           {
             name: "Resultados",
             route: "/system/results",
-            component: <SignIn />,
+            component: <AboutUs />,
           },
           {
             name: "Gráficos",

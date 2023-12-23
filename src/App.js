@@ -12,7 +12,7 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import DefaultNavbar from "layouts/utils/Navbars/DefaultNavbar";
@@ -21,10 +21,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import theme from "assets/theme";
 import Presentation from "layouts/pages/presentation";
 import routes from "routes";
-import { AuthGoogleProvider } from "contexts/authGoogle";
+import { AuthGoogleProvider, AuthGoogleContext } from "contexts/authGoogle";
 
 export default function App() {
   const { pathname } = useLocation();
+  const { signInGoogle } = useContext(AuthGoogleContext);
 
   useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -45,25 +46,25 @@ export default function App() {
     });
 
   return (
-    <ThemeProvider theme={theme}>
-      <DefaultNavbar
-        routes={routes}
-        action={{
-          type: "external",
-          route: "https://sescbahia.com.br",
-          label: "Visitar o SESC",
-          color: "info",
-        }}
-        sticky
-      />
-      <CssBaseline />
-      <AuthGoogleProvider>
+    <AuthGoogleProvider>
+      <ThemeProvider theme={theme}>
+        <DefaultNavbar
+          routes={routes}
+          action={{
+            type: "internal",
+            onClick: () => signInGoogle(),
+            label: "Entrar",
+            color: "info",
+          }}
+          sticky
+        />
+        <CssBaseline />
         <Routes>
           {getRoutes(routes)}
           <Route path="/presentation" element={<Presentation />} />
           <Route path="*" element={<Navigate to="/presentation" />} />
         </Routes>
-      </AuthGoogleProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </AuthGoogleProvider>
   );
 }
