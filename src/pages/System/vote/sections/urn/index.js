@@ -147,7 +147,13 @@ function Urn() {
               <Grid key={number} item xs={4} md={3}>
                 <MKButton
                   variant="gradient"
-                  color="light"
+                  color={
+                    number === "Corrige"
+                      ? "warning"
+                      : number === "Branco" || number === "Confirma"
+                      ? "light"
+                      : "secondary"
+                  }
                   onClick={() => {
                     if (number === "Branco") {
                       handleBlankVote();
@@ -168,10 +174,10 @@ function Urn() {
                 size="small"
                 fullWidth
                 variant="gradient"
-                color="light"
+                color="success"
                 onClick={handleConfirmVote}
               >
-                {confirmedCandidate ? "Confirmar" : "Confirma"}
+                Confirma
               </MKButton>
             </Grid>
           </Grid>
