@@ -15,12 +15,12 @@ Coded by www.creative-tim.com
 import Icon from "@mui/material/Icon";
 
 // Pages
-import AboutUs from "layouts/pages/landing-pages/docs/about-us";
-import Environment from "layouts/pages/landing-pages/docs/environment";
-import VoteDocs from "layouts/pages/landing-pages/docs/vote";
-import Teacher from "layouts/pages/landing-pages/docs/teacher";
-import Register from "layouts/pages/landing-pages/system/register";
-import Vote from "layouts/pages/landing-pages/system/vote";
+import AboutUs from "layouts/pages/docs/about-us";
+import Environment from "layouts/pages/docs/environment";
+import VoteDocs from "layouts/pages/docs/vote";
+import Teacher from "layouts/pages/docs/teacher";
+import Register from "layouts/pages/system/register";
+import Vote from "layouts/pages/system/vote";
 import SignIn from "layouts/pages/authentication/sign-in";
 
 const routes = [

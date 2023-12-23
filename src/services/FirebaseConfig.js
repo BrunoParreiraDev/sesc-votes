@@ -1,4 +1,6 @@
-const firebaseConfig = {
+import { initializeApp } from "firebase/app";
+
+export const firebaseConfig = {
   apiKey: "AIzaSyAz5huf5rbXBYuHrs-wzDCMrYWFNKTjO3M",
   authDomain: "sesc-votes.firebaseapp.com",
   projectId: "sesc-votes",
@@ -8,4 +10,4 @@ const firebaseConfig = {
   measurementId: "G-G5GBSSN9RM",
 };
 
-export default firebaseConfig;
+export const app = initializeApp(firebaseConfig);

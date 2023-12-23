@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import Avatar from "@mui/material/Avatar";
-import firebaseConfig from "layouts/utils/FireBase";
+import { app } from "services/FirebaseConfig";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import { Link } from "react-router-dom";
@@ -18,7 +17,6 @@ function Candidates() {
   useEffect(() => {
     const fetchCandidates = async () => {
       try {
-        const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
         const querySnapshot = await getDocs(collection(db, "candidates"));

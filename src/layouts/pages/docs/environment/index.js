@@ -14,7 +14,7 @@ Coded by www.creative-tim.com
 */
 
 // Material Kit 2 React pages
-import Environment from "pages/LandingPages/docs/Environment";
+import Environment from "pages/Docs/Environment";
 
 export default function EnvironmentPage() {
   return <Environment />;

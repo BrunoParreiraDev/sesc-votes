@@ -20,9 +20,9 @@ import MKBox from "components/MKBox";
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
 
 // Vote page sections
-import Voting from "pages/LandingPages/docs/Vote/sections/Voting";
-import System from "pages/LandingPages/docs/Vote/sections/System";
-import Next from "pages/LandingPages/docs/Vote/sections/Next";
+import Voting from "pages/Docs/Vote/sections/Voting";
+import System from "pages/Docs/Vote/sections/System";
+import Next from "pages/Docs/Vote/sections/Next";
 
 import footerRoutes from "footer.routes";
 

@@ -9,8 +9,7 @@ import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
 import footerRoutes from "footer.routes";
-import { initializeApp } from "firebase/app";
-import firebaseConfig from "layouts/utils/FireBase";
+import { app } from "services/FirebaseConfig";
 import { getFirestore, collection, doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
 
 function Form({ onSend }) {
@@ -20,8 +19,6 @@ function Form({ onSend }) {
     class: "",
     image: "",
   });
-
-  const app = initializeApp(firebaseConfig);
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;

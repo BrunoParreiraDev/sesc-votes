@@ -1,15 +1,13 @@
 import React from "react";
-import { initializeApp } from "firebase/app";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import Card from "@mui/material/Card";
 import MKBox from "components/MKBox";
 import Form from "./section/Form";
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
 import footerRoutes from "footer.routes";
-import firebaseConfig from "layouts/utils/FireBase";
+import { app } from "services/FirebaseConfig";
 
 function Register() {
-  const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
   const handleBackend = async (data) => {
