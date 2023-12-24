@@ -24,8 +24,6 @@ import Voting from "pages/Docs/Vote/sections/Voting";
 import System from "pages/Docs/Vote/sections/System";
 import Next from "pages/Docs/Vote/sections/Next";
 
-import footerRoutes from "footer.routes";
-
 function VoteDocs() {
   return (
     <>
@@ -43,7 +41,7 @@ function VoteDocs() {
         <Next />
       </MKBox>
       <MKBox pt={6} px={1} mt={6}>
-        <CenteredFooter content={footerRoutes} />
+        <CenteredFooter />
       </MKBox>
     </>
   );

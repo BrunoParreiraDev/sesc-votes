@@ -33,8 +33,6 @@ import DesignBlocks from "pages/Presentation/sections/DesignBlocks";
 // Presentation page components
 import BuiltByDevelopers from "pages/Presentation/components/BuiltByDevelopers";
 
-import footerRoutes from "footer.routes";
-
 // Images
 import bgImage from "assets/images/bg-presentation.jpg";
 
@@ -158,7 +156,7 @@ function Presentation() {
         </MKBox>
       </Card>
       <MKBox pt={6} px={1} mt={6}>
-        <CenteredFooter content={footerRoutes} />
+        <CenteredFooter />
       </MKBox>
     </>
   );

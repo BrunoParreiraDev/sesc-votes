@@ -3,7 +3,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useState } from "react";
 import { createContext } from "react";
 import { app } from "services/FirebaseConfig";
-import Swal from "sweetalert2"; // Alteração aqui: removi as chaves em volta do SweetAlert2
+import Swal from "sweetalert2";
 
 const provider = new GoogleAuthProvider();
 

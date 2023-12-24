@@ -7,8 +7,6 @@ import Avatar from "@mui/material/Avatar";
 import MKBox from "components/MKBox";
 import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
-import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
-import footerRoutes from "footer.routes";
 import { app } from "services/FirebaseConfig";
 import { getFirestore, collection, doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
 
@@ -164,9 +162,6 @@ function Form({ onSend }) {
           </form>
         </MKBox>
       </Card>
-      <MKBox p={3}>
-        <CenteredFooter content={footerRoutes} />
-      </MKBox>
     </>
   );
 }

@@ -7,7 +7,6 @@ import { getFirestore } from "firebase/firestore";
 import { app } from "services/FirebaseConfig";
 import Urn from "./sections/urn";
 import Candidates from "./sections/candidates";
-import footerRoutes from "footer.routes";
 
 function Vote() {
   const db = getFirestore(app);
@@ -32,7 +31,7 @@ function Vote() {
         </Container>
       </Card>
       <MKBox pt={6} px={1} mt={6}>
-        <CenteredFooter content={footerRoutes} />
+        <CenteredFooter />
       </MKBox>
     </>
   );

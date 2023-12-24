@@ -27,6 +27,10 @@ export default function App() {
   const { pathname } = useLocation();
   const { signInGoogle } = useContext(AuthGoogleContext);
 
+  const handleClick = () => {
+    signInGoogle();
+  };
+
   useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -50,9 +54,8 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <DefaultNavbar
           routes={routes}
+          onClick={handleClick}
           action={{
-            type: "internal",
-            onClick: () => signInGoogle(),
             label: "Entrar",
             color: "info",
           }}

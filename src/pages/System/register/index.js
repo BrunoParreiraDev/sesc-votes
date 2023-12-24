@@ -4,7 +4,6 @@ import Card from "@mui/material/Card";
 import MKBox from "components/MKBox";
 import Form from "./section/Form";
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
-import footerRoutes from "footer.routes";
 import { app } from "services/FirebaseConfig";
 
 function Register() {
@@ -41,7 +40,7 @@ function Register() {
         />
       </Card>
       <MKBox pt={6} px={1} mt={6}>
-        <CenteredFooter content={footerRoutes} />
+        <CenteredFooter />
       </MKBox>
     </>
   );
