@@ -29,9 +29,6 @@ import Information from "pages/Docs/AboutUs/sections/Information";
 import Team from "pages/Docs/AboutUs/sections/Team";
 import Featuring from "pages/Docs/AboutUs/sections/Featuring";
 
-// Routes
-import footerRoutes from "footer.routes";
-
 // Images
 import bgImage from "assets/images/bg-about-us.jpg";
 
@@ -95,7 +92,7 @@ function AboutUs() {
         <Featuring />
       </MKBox>
       <MKBox pt={6} px={1} mt={6}>
-        <CenteredFooter content={footerRoutes} />
+        <CenteredFooter />
       </MKBox>
     </>
   );

@@ -23,8 +23,6 @@ import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
 import Class from "pages/Docs/Environment/sections/Class";
 import Next from "pages/Docs/Environment/sections/Next";
 
-import footerRoutes from "footer.routes";
-
 function Environment() {
   return (
     <>
@@ -41,7 +39,7 @@ function Environment() {
         <Next />
       </MKBox>
       <MKBox pt={6} px={1} mt={6}>
-        <CenteredFooter content={footerRoutes} />
+        <CenteredFooter />
       </MKBox>
     </>
   );

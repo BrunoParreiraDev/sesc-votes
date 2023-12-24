@@ -43,7 +43,17 @@ import DefaultNavbarMobile from "layouts/utils/Navbars/DefaultNavbar/DefaultNavb
 // SESC Votes React base styles
 import breakpoints from "assets/theme/base/breakpoints";
 
-function DefaultNavbar({ brand, routes, transparent, light, action, sticky, relative, center }) {
+function DefaultNavbar({
+  brand,
+  routes,
+  transparent,
+  light,
+  action,
+  onClick,
+  sticky,
+  relative,
+  center,
+}) {
   const [dropdown, setDropdown] = useState("");
   const [dropdownEl, setDropdownEl] = useState("");
   const [dropdownName, setDropdownName] = useState("");
@@ -490,9 +500,7 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
           <MKBox ml={{ xs: "auto", lg: 0 }}>
             {action && (
               <MKButton
-                component={Link}
-                to={action.route}
-                onClick={action.onClick}
+                onClick={onClick}
                 variant={
                   action.color === "white" || action.color === "default" ? "contained" : "gradient"
                 }
@@ -547,11 +555,10 @@ DefaultNavbar.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.shape).isRequired,
   transparent: PropTypes.bool,
   light: PropTypes.bool,
+  onClick: PropTypes.func,
   action: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.shape({
-      route: PropTypes.string.isRequired,
-      onClick: PropTypes.func.isRequired,
       color: PropTypes.oneOf([
         "primary",
         "secondary",

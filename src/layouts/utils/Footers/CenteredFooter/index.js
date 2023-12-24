@@ -108,7 +108,7 @@ CenteredFooter.defaultProps = {
     { href: "https://brunin12.netlify.app/", name: "Empresa" },
     { href: "https://brunin12.netlify.app/about", name: "Sobre Nós" },
     { href: "https://brunin12.netlify.app/", name: "Equipe" },
-    { href: "https://brunin12.netlify.app/", name: "Products" },
+    { href: "https://brunin12.netlify.app/", name: "Produtos" },
     { href: "https://brunin12.netlify.app/", name: "Blog" },
     { href: "https://www.creative-tim.com/license", name: "Licença" },
   ],
