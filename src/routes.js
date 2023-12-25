@@ -20,6 +20,7 @@ import Environment from "layouts/pages/docs/environment";
 import VoteDocs from "layouts/pages/docs/vote";
 import Teacher from "layouts/pages/docs/teacher";
 import Register from "layouts/pages/system/register";
+import SignIn from "layouts/pages/system/signin";
 import Vote from "layouts/pages/system/vote";
 
 const routes = [
@@ -84,6 +85,16 @@ const routes = [
             name: "Gráficos",
             route: "/system/charts",
             component: <AboutUs />,
+          },
+        ],
+      },
+      {
+        name: "Perfil",
+        collapse: [
+          {
+            name: "Entrar",
+            route: "/system/signin",
+            component: <SignIn />,
           },
         ],
       },

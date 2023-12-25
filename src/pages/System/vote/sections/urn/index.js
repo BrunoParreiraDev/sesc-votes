@@ -1,4 +1,4 @@
-import Swal from "sweetalert2";
+//import Swal from "sweetalert2";
 import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -38,26 +38,27 @@ function Urn() {
     }
 
     const showClassSelection = async () => {
-      const { value: selectedClass } = await Swal.mixin({
-        input: "select",
-        inputOptions: {
-          "7 (A)": "7 (A)",
-          "7 (B)": "7 (B)",
-          "8 (A)": "8 (A)",
-          "8 (B)": "8 (B)",
-          // Adicione outras opções conforme necessário
-        },
-        inputPlaceholder: "Selecione a Turma",
-        confirmButtonText: "Selecionar",
-        showCancelButton: true,
-        cancelButtonText: "Cancelar",
-      }).queue([
-        {
-          title: "Selecione a Turma",
-          confirmButtonText: "Selecionar",
-          showCancelButton: true,
-        },
-      ]);
+      const { value: selectedClass } = "8 (A)";
+      // await Swal.mixin({
+      //   input: "select",
+      //   inputOptions: {
+      //     "7 (A)": "7 (A)",
+      //     "7 (B)": "7 (B)",
+      //     "8 (A)": "8 (A)",
+      //     "8 (B)": "8 (B)",
+      //     // Adicione outras opções conforme necessário
+      //   },
+      //   inputPlaceholder: "Selecione a Turma",
+      //   confirmButtonText: "Selecionar",
+      //   showCancelButton: true,
+      //   cancelButtonText: "Cancelar",
+      // }).queue([
+      //   {
+      //     title: "Selecione a Turma",
+      //     confirmButtonText: "Selecionar",
+      //     showCancelButton: true,
+      //   },
+      // ]);
 
       if (selectedClass) {
         // O usuário selecionou uma turma, utilize o valor de selectedClass aqui

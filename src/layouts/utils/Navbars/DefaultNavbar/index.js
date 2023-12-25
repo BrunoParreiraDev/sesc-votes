@@ -43,17 +43,7 @@ import DefaultNavbarMobile from "layouts/utils/Navbars/DefaultNavbar/DefaultNavb
 // SESC Votes React base styles
 import breakpoints from "assets/theme/base/breakpoints";
 
-function DefaultNavbar({
-  brand,
-  routes,
-  transparent,
-  light,
-  action,
-  onClick,
-  sticky,
-  relative,
-  center,
-}) {
+function DefaultNavbar({ brand, routes, transparent, light, action, sticky, relative, center }) {
   const [dropdown, setDropdown] = useState("");
   const [dropdownEl, setDropdownEl] = useState("");
   const [dropdownName, setDropdownName] = useState("");
@@ -354,6 +344,7 @@ function DefaultNavbar({
                   target: "_blank",
                   rel: "noreferrer",
                 };
+
                 const routeComponent = {
                   component: Link,
                   to: item.route,
@@ -498,18 +489,38 @@ function DefaultNavbar({
             {renderNavbarItems}
           </MKBox>
           <MKBox ml={{ xs: "auto", lg: 0 }}>
-            {action && (
-              <MKButton
-                onClick={onClick}
-                variant={
-                  action.color === "white" || action.color === "default" ? "contained" : "gradient"
-                }
-                color={action.color ? action.color : "info"}
-                size="small"
-              >
-                {action.label}
-              </MKButton>
-            )}
+            {action &&
+              (action.type === "internal" ? (
+                <MKButton
+                  component={Link}
+                  to={action.route}
+                  variant={
+                    action.color === "white" || action.color === "default"
+                      ? "contained"
+                      : "gradient"
+                  }
+                  color={action.color ? action.color : "info"}
+                  size="small"
+                >
+                  {action.label}
+                </MKButton>
+              ) : (
+                <MKButton
+                  component="a"
+                  href={action.route}
+                  target="_blank"
+                  rel="noreferrer"
+                  variant={
+                    action.color === "white" || action.color === "default"
+                      ? "contained"
+                      : "gradient"
+                  }
+                  color={action.color ? action.color : "info"}
+                  size="small"
+                >
+                  {action.label}
+                </MKButton>
+              ))}
           </MKBox>
           <MKBox
             display={{ xs: "inline-block", lg: "none" }}
@@ -555,10 +566,11 @@ DefaultNavbar.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.shape).isRequired,
   transparent: PropTypes.bool,
   light: PropTypes.bool,
-  onClick: PropTypes.func,
   action: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.shape({
+      type: PropTypes.oneOf(["external", "internal"]).isRequired,
+      route: PropTypes.string.isRequired,
       color: PropTypes.oneOf([
         "primary",
         "secondary",
