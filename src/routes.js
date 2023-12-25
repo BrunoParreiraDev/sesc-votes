@@ -21,6 +21,7 @@ import VoteDocs from "layouts/pages/docs/vote";
 import Teacher from "layouts/pages/docs/teacher";
 import Register from "layouts/pages/system/register";
 import SignIn from "layouts/pages/system/signin";
+import SignOut from "layouts/pages/system/signout";
 import Vote from "layouts/pages/system/vote";
 
 const routes = [
@@ -92,9 +93,11 @@ const routes = [
         name: "Perfil",
         collapse: [
           {
-            name: "Entrar",
-            route: "/system/signin",
-            component: <SignIn />,
+            name: sessionStorage.getItem("@AuthFirebase:user") ? "Sair" : "Entrar",
+            route: sessionStorage.getItem("@AuthFirebase:user")
+              ? "/system/signout"
+              : "/system/signin",
+            component: sessionStorage.getItem("@AuthFirebase:user") ? <SignOut /> : <SignIn />,
           },
         ],
       },

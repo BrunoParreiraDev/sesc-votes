@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 // react-router-dom components
 import { Link } from "react-router-dom";
@@ -38,10 +38,15 @@ import MKButton from "components/MKButton";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
+// Google auth
+import { AuthGoogleContext } from "contexts/authGoogle";
+
 function SignIn() {
   const [rememberMe, setRememberMe] = useState(false);
-
+  const { signInGoogle, signed } = useContext(AuthGoogleContext);
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  console.log("logado:", signed);
+  console.log("storage:", sessionStorage.getItem("@AuthFirebase:user"));
 
   return (
     <>
@@ -94,7 +99,7 @@ function SignIn() {
                   </Grid>
                   <Grid item xs={2}>
                     <MKTypography component={MuiLink} href="#" variant="body1" color="white">
-                      <GoogleIcon color="inherit" />
+                      <GoogleIcon color="inherit" onClick={() => signInGoogle()} />
                     </MKTypography>
                   </Grid>
                 </Grid>

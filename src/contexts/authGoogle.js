@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { useState } from "react";
 import { createContext } from "react";
 import { app } from "services/FirebaseConfig";
 import Swal from "sweetalert2";
+import { PropTypes } from "prop-types";
 
 const provider = new GoogleAuthProvider();
 
@@ -31,8 +31,25 @@ export const AuthGoogleProvider = ({ children }) => {
       });
   };
 
+  const signOutGoogle = () => {
+    signOut(auth)
+      .then(() => {
+        // Limpar informações de usuário ao sair
+        sessionStorage.removeItem("@AuthFirebase:user");
+        sessionStorage.removeItem("@AuthFirebase:token");
+        setUser(null); // ou qualquer lógica necessária para limpar o estado de usuário
+        Swal.fire("Sucesso!", "Até a proxima!");
+        setTimeout(() => {
+          document.location = "/";
+        }, 2000);
+      })
+      .catch((error) => {
+        console.log("Erro ao desconectar o usuário: ", error);
+      });
+  };
+
   return (
-    <AuthGoogleContext.Provider value={{ signInGoogle, signed: !!user }}>
+    <AuthGoogleContext.Provider value={{ signInGoogle, signOutGoogle, signed: !!user }}>
       {children}
     </AuthGoogleContext.Provider>
   );

@@ -48,14 +48,15 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <DefaultNavbar
           routes={routes}
-          action={{
-            type: "internal",
-            route: "system/signin",
-            label: "Entrar",
-            color: "default",
-          }}
-          transparent
-          light
+          action={
+            !sessionStorage.getItem("@AuthFirebase:user") && {
+              type: "internal",
+              route: "system/signin",
+              label: "Entrar",
+              color: "default",
+            }
+          }
+          dark
         />
         <CssBaseline />
         <Routes>
