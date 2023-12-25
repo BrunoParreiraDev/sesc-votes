@@ -10,7 +10,6 @@ import Candidates from "./sections/candidates";
 
 function Vote() {
   const db = getFirestore(app);
-
   return (
     <>
       <Card
