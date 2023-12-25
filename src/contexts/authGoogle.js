@@ -21,7 +21,7 @@ export const AuthGoogleProvider = ({ children }) => {
         const user = result.user;
         console.log(user);
         console.log(token);
-        Swal.fire("Usuário", `Bem vindo de volta ${user.displayName}!`);
+        Swal.fire("Sucesso!", `Olá, ${user.displayName}!`);
         setUser(user);
         sessionStorage.setItem("@AuthFirebase:token", token);
         sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(user));
@@ -34,11 +34,9 @@ export const AuthGoogleProvider = ({ children }) => {
   const signOutGoogle = () => {
     signOut(auth)
       .then(() => {
-        // Limpar informações de usuário ao sair
         sessionStorage.removeItem("@AuthFirebase:user");
         sessionStorage.removeItem("@AuthFirebase:token");
-        setUser(null); // ou qualquer lógica necessária para limpar o estado de usuário
-        Swal.fire("Sucesso!", "Até a proxima!");
+        setUser(null);
         setTimeout(() => {
           document.location = "/";
         }, 2000);
@@ -49,12 +47,11 @@ export const AuthGoogleProvider = ({ children }) => {
   };
 
   return (
-    <AuthGoogleContext.Provider value={{ signInGoogle, signOutGoogle, signed: !!user }}>
+    <AuthGoogleContext.Provider value={{ signInGoogle, signed: !!user, signOutGoogle }}>
       {children}
     </AuthGoogleContext.Provider>
   );
 };
-
 AuthGoogleProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
