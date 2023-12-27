@@ -2,16 +2,40 @@ import React, { useState } from "react";
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
+import MKButton from "components/MKButton";
 import MKBox from "components/MKBox";
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
 import Urn from "./sections/urn";
 import Candidates from "./sections/candidates";
+import Swal from "sweetalert2";
 
 function Vote() {
   const [input, setInput] = useState("7 (A)");
 
   const handleInputChange = (event) => {
     setInput(event.target.value);
+  };
+
+  const handleFinish = () => {
+    Swal.fire({
+      title: "Finalizar a urna?",
+      text: "Esta ação concluirá o processo. Deseja continuar?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Sim",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Se o usuário confirmar, execute o código desejado aqui
+        // Código a ser executado quando o usuário confirmar
+        // Exemplo: executarFuncao();
+        // ...
+        Swal.fire("Concluído!", "A finalização da urna foi realizada.", "success");
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Se o usuário cancelar, exibe um alerta informando que cancelou a finalização
+        alert("Você cancelou a finalização da urna.");
+      }
+    });
   };
 
   return (
@@ -58,6 +82,9 @@ function Vote() {
             </Grid>
           </Grid>
           <Urn class={input} />
+          <MKBox>
+            <MKButton onClick={handleFinish}>Finalizar</MKButton>
+          </MKBox>
           <Candidates class={input} />
         </Container>
       </Card>

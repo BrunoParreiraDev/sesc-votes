@@ -25,6 +25,7 @@ import { AuthGoogleProvider } from "contexts/authGoogle";
 
 export default function App() {
   const { pathname } = useLocation();
+
   useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
