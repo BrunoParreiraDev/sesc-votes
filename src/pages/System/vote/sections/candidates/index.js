@@ -10,7 +10,7 @@ import MKBox from "components/MKBox";
 import MKAlert from "components/MKAlert";
 import DefaultCounterCard from "layouts/utils/Cards/CounterCards/DefaultCounterCard";
 
-function Candidates() {
+function Candidates(input) {
   const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -28,7 +28,9 @@ function Candidates() {
             ...doc.data(),
           }));
 
-        setCandidates(candidatesData);
+        const filteredData = candidatesData.filter((item) => item.class === input.class);
+
+        setCandidates(filteredData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching candidates: ", error);
@@ -37,7 +39,7 @@ function Candidates() {
     };
 
     fetchCandidates();
-  }, []);
+  }, [input]);
 
   if (loading) {
     return (

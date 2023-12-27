@@ -1,4 +1,3 @@
-//import Swal from "sweetalert2";
 import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -8,7 +7,7 @@ import MKButton from "components/MKButton";
 import MKBox from "components/MKBox";
 import UrnBip from "assets/urna.mp3";
 
-function Urn() {
+function Urn(input) {
   const [inputValue, setInputValue] = useState("");
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [confirmedCandidate, setConfirmedCandidate] = useState(null);
@@ -16,64 +15,42 @@ function Urn() {
   const [showEnd, setShowEnd] = useState(false);
 
   useEffect(() => {
-    async function fetchCandidates(selectedClass) {
+    const fetchCandidates = async (selectedClass) => {
       try {
         const db = getFirestore(app);
         let query = collection(db, "candidates");
 
-        // Verifique se uma classe foi selecionada antes de aplicar o filtro
         if (selectedClass) {
-          query = query.where("selectedClass", "==", selectedClass);
+          console.log("Classe selecionada:", selectedClass);
+          query = query.where("class", "==", selectedClass);
         }
 
         const querySnapshot = await getDocs(query);
-        const candidates = querySnapshot.docs.map((doc) => ({
+        const candidatesQuery = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setCandidates(candidates);
+        console.log("Candidatos encontrados:", candidatesQuery);
+        setCandidates(candidatesQuery);
       } catch (error) {
-        console.error("Error getting documents: ", error);
+        console.error("Erro ao obter documentos:", error);
       }
-    }
+    };
 
     const showClassSelection = async () => {
-      const { value: selectedClass } = "8 (A)";
-      // await Swal.mixin({
-      //   input: "select",
-      //   inputOptions: {
-      //     "7 (A)": "7 (A)",
-      //     "7 (B)": "7 (B)",
-      //     "8 (A)": "8 (A)",
-      //     "8 (B)": "8 (B)",
-      //     // Adicione outras opções conforme necessário
-      //   },
-      //   inputPlaceholder: "Selecione a Turma",
-      //   confirmButtonText: "Selecionar",
-      //   showCancelButton: true,
-      //   cancelButtonText: "Cancelar",
-      // }).queue([
-      //   {
-      //     title: "Selecione a Turma",
-      //     confirmButtonText: "Selecionar",
-      //     showCancelButton: true,
-      //   },
-      // ]);
+      const { value: selectedClass } = input.class;
 
       if (selectedClass) {
-        // O usuário selecionou uma turma, utilize o valor de selectedClass aqui
-        console.log("Turma selecionada:", selectedClass);
+        console.log("Turma selecionada:", selectedClass); // Adição do log
         fetchCandidates(selectedClass);
       } else {
-        // Usuário cancelou a seleção
         console.log("Seleção cancelada");
         setCandidates([]);
       }
     };
 
-    // Chame a função para mostrar o SweetAlert
     showClassSelection();
-  }, []);
+  }, [input]);
 
   useEffect(() => {
     const handleConfirmedCandidate = async () => {
@@ -132,7 +109,6 @@ function Urn() {
 
   const handleBlankVote = () => {
     setSelectedCandidate({ id: 0, name: "Voto Branco" });
-    handleVote();
   };
 
   const handleConfirmVote = () => {
@@ -144,8 +120,12 @@ function Urn() {
       handleOption();
     } else {
       const candidate = candidates.find((c) => {
+        console.log("Candidato encontrado?", c); // Adicionado console.log para verificar candidato
+        console.log("Valor digitado:", inputValue); // Adicionado console.log para verificar valor digitado
         return c.id.toString() === inputValue;
       });
+
+      console.log("Lista de candidatos:", candidates); // Adicionado console.log para verificar lista de candidatos
 
       if (candidate) {
         setSelectedCandidate(candidate);
