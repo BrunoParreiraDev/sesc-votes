@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid";
 import MKBox from "components/MKBox";
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
-import { getFirestore } from "firebase/firestore";
-import { app } from "services/FirebaseConfig";
 import Urn from "./sections/urn";
 import Candidates from "./sections/candidates";
 
 function Vote() {
-  const db = getFirestore(app);
+  const [input, setInput] = useState("7 (A)");
+
+  const handleInputChange = (event) => {
+    setInput(event.target.value);
+  };
+
   return (
     <>
       <Card
@@ -25,8 +29,32 @@ function Vote() {
         }}
       >
         <Container>
-          <Urn db={db} />
-          <Candidates db={db} />
+          <Grid item xs={12} mb={3}>
+            <select
+              id="class"
+              value={input}
+              onChange={handleInputChange}
+              style={{
+                width: "100%",
+                padding: "12px",
+                border: "1px solid #ced4da",
+                borderRadius: "4px",
+              }}
+              required
+            >
+              <option value="" disabled>
+                Selecione a Turma
+              </option>
+              <option value="7 (A)">7 (A)</option>
+              <option value="7 (B)">7 (B)</option>
+              <option value="8 (A)">8 (A)</option>
+              <option value="8 (B)">8 (B)</option>
+              <option value="9 (A)">9 (A)</option>
+              <option value="9 (B)">9 (B)</option>
+            </select>
+          </Grid>
+          <Urn class={input} />
+          <Candidates class={input} />
         </Container>
       </Card>
       <MKBox pt={6} px={1} mt={6}>

@@ -53,7 +53,7 @@ export default function App() {
               type: "internal",
               route: "system/signin",
               label: "Entrar",
-              color: "default",
+              color: "info",
             }
           }
           dark
