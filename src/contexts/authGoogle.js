@@ -25,9 +25,17 @@ export const AuthGoogleProvider = ({ children }) => {
         setUser(user);
         sessionStorage.setItem("@AuthFirebase:token", token);
         sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(user));
+        setTimeout(() => {
+          document.location = "/";
+        }, 2000);
       })
       .catch((error) => {
         console.log("Erro: ", error);
+        Swal.fire(
+          "Ops, algo deu errado!",
+          `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
+          "warning"
+        );
       });
   };
 
@@ -37,9 +45,7 @@ export const AuthGoogleProvider = ({ children }) => {
         sessionStorage.removeItem("@AuthFirebase:user");
         sessionStorage.removeItem("@AuthFirebase:token");
         setUser(null);
-        setTimeout(() => {
-          document.location = "/";
-        }, 2000);
+        document.location = "/";
       })
       .catch((error) => {
         console.log("Erro ao desconectar o usuário: ", error);
