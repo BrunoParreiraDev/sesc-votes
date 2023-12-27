@@ -15,9 +15,6 @@ Coded by www.creative-tim.com
 
 import { useContext, useState } from "react";
 
-// react-router-dom components
-import { Link } from "react-router-dom";
-
 // @mui material components
 import Card from "@mui/material/Card";
 import Switch from "@mui/material/Switch";
@@ -121,26 +118,25 @@ function SignIn() {
                       onClick={handleSetRememberMe}
                       sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
                     >
-                      &nbsp;&nbsp;Remember me
+                      &nbsp;&nbsp;Lembre de Mim
                     </MKTypography>
                   </MKBox>
                   <MKBox mt={4} mb={1}>
                     <MKButton variant="gradient" color="info" fullWidth>
-                      sign in
+                      Entrar
                     </MKButton>
                   </MKBox>
                   <MKBox mt={3} mb={1} textAlign="center">
                     <MKTypography variant="button" color="text">
-                      Don&apos;t have an account?{" "}
+                      Não tem uma conta?{" "}
                       <MKTypography
-                        component={Link}
-                        to="/system/sign-up/cover"
+                        onClick={signInGoogle}
                         variant="button"
                         color="info"
                         fontWeight="medium"
                         textGradient
                       >
-                        Sign up
+                        Criar
                       </MKTypography>
                     </MKTypography>
                   </MKBox>
