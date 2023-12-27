@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
-import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import MKBox from "components/MKBox";
@@ -88,80 +87,78 @@ function Form({ onSend }) {
 
   return (
     <>
-      <Card>
-        <MKBox p={3} textAlign="center">
-          <label htmlFor="avatar-input">
-            <Avatar
-              id="preview-avatar"
-              sx={{ width: 120, height: 120, margin: "0 auto 20px", cursor: "pointer" }}
-              alt="Candidate Photo"
-              src={formData.image}
-            />
-          </label>
-          <form onSubmit={handleSubmit}>
-            <input
-              id="avatar-input"
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={handleImageChange}
-            />
-            <Grid container spacing={2} justifyContent="center">
-              <Grid item xs={12}>
-                <MKInput
-                  fullWidth
-                  placeholder="Nome Completo"
-                  id="name"
-                  variant="outlined"
-                  required
-                  value={formData.name}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <MKInput
-                  fullWidth
-                  placeholder="Slogan"
-                  id="slogan"
-                  variant="outlined"
-                  required
-                  value={formData.slogan}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <select
-                  id="class"
-                  value={formData.class}
-                  onChange={handleInputChange}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    border: "1px solid #ced4da",
-                    borderRadius: "4px",
-                  }}
-                  required
-                >
-                  <option value="" disabled>
-                    Selecione a Turma
-                  </option>
-                  <option value="7 (A)">7 (A)</option>
-                  <option value="7 (B)">7 (B)</option>
-                  <option value="8 (A)">8 (A)</option>
-                  <option value="8 (B)">8 (B)</option>
-                  <option value="9 (A)">9 (A)</option>
-                  <option value="9 (B)">9 (B)</option>
-                </select>
-              </Grid>
-              <Grid item xs={12}>
-                <MKButton type="submit" fullWidth variant="gradient" color="info">
-                  Adicionar Candidato
-                </MKButton>
-              </Grid>
+      <MKBox p={3} textAlign="center">
+        <label htmlFor="avatar-input">
+          <Avatar
+            id="preview-avatar"
+            sx={{ width: 120, height: 120, margin: "0 auto 20px", cursor: "pointer" }}
+            alt="Candidate Photo"
+            src={formData.image}
+          />
+        </label>
+        <form onSubmit={handleSubmit}>
+          <input
+            id="avatar-input"
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleImageChange}
+          />
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item xs={12}>
+              <MKInput
+                fullWidth
+                placeholder="Nome Completo"
+                id="name"
+                variant="outlined"
+                required
+                value={formData.name}
+                onChange={handleInputChange}
+              />
             </Grid>
-          </form>
-        </MKBox>
-      </Card>
+            <Grid item xs={12}>
+              <MKInput
+                fullWidth
+                placeholder="Slogan"
+                id="slogan"
+                variant="outlined"
+                required
+                value={formData.slogan}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <select
+                id="class"
+                value={formData.class}
+                onChange={handleInputChange}
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  border: "1px solid #ced4da",
+                  borderRadius: "4px",
+                }}
+                required
+              >
+                <option value="" disabled>
+                  Selecione a Turma
+                </option>
+                <option value="7 (A)">7 (A)</option>
+                <option value="7 (B)">7 (B)</option>
+                <option value="8 (A)">8 (A)</option>
+                <option value="8 (B)">8 (B)</option>
+                <option value="9 (A)">9 (A)</option>
+                <option value="9 (B)">9 (B)</option>
+              </select>
+            </Grid>
+            <Grid item xs={12}>
+              <MKButton type="submit" fullWidth variant="gradient" color="info">
+                Adicionar Candidato
+              </MKButton>
+            </Grid>
+          </Grid>
+        </form>
+      </MKBox>
     </>
   );
 }

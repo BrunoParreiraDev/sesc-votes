@@ -29,29 +29,33 @@ function Vote() {
         }}
       >
         <Container>
-          <Grid item xs={12} mb={3}>
-            <select
-              id="class"
-              value={input}
-              onChange={handleInputChange}
-              style={{
-                width: "100%",
-                padding: "12px",
-                border: "1px solid #ced4da",
-                borderRadius: "4px",
-              }}
-              required
-            >
-              <option value="" disabled>
-                Selecione a Turma
-              </option>
-              <option value="7 (A)">7 (A)</option>
-              <option value="7 (B)">7 (B)</option>
-              <option value="8 (A)">8 (A)</option>
-              <option value="8 (B)">8 (B)</option>
-              <option value="9 (A)">9 (A)</option>
-              <option value="9 (B)">9 (B)</option>
-            </select>
+          <Grid container justifyContent="center" mb={3}>
+            <Grid item xs={12} lg={12}>
+              <MKBox>
+                <select
+                  id="class"
+                  value={input}
+                  onChange={handleInputChange}
+                  style={{
+                    width: "100%",
+                    padding: "12px",
+                    border: "1px solid #ced4da",
+                    borderRadius: "4px",
+                  }}
+                  required
+                >
+                  <option value="" disabled>
+                    Selecione a Turma
+                  </option>
+                  <option value="7 (A)">7 (A)</option>
+                  <option value="7 (B)">7 (B)</option>
+                  <option value="8 (A)">8 (A)</option>
+                  <option value="8 (B)">8 (B)</option>
+                  <option value="9 (A)">9 (A)</option>
+                  <option value="9 (B)">9 (B)</option>
+                </select>
+              </MKBox>
+            </Grid>
           </Grid>
           <Urn class={input} />
           <Candidates class={input} />
