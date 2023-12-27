@@ -14,42 +14,29 @@ function Urn(input) {
   const [candidates, setCandidates] = useState([]);
   const [showEnd, setShowEnd] = useState(false);
 
-  useEffect(() => {
-    const fetchCandidates = async (selectedClass) => {
-      try {
-        const db = getFirestore(app);
-        let query = collection(db, "candidates");
+  const fetchCandidates = async () => {
+    try {
+      const db = getFirestore(app);
 
-        if (selectedClass) {
-          console.log("Classe selecionada:", selectedClass);
-          query = query.where("class", "==", selectedClass);
-        }
+      const querySnapshot = await getDocs(collection(db, "candidates"));
 
-        const querySnapshot = await getDocs(query);
-        const candidatesQuery = querySnapshot.docs.map((doc) => ({
+      const candidatesData = querySnapshot.docs
+        .filter((doc) => doc.data().name)
+        .map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        console.log("Candidatos encontrados:", candidatesQuery);
-        setCandidates(candidatesQuery);
-      } catch (error) {
-        console.error("Erro ao obter documentos:", error);
-      }
-    };
 
-    const showClassSelection = async () => {
-      const { value: selectedClass } = input.class;
+      const filteredData = candidatesData.filter((item) => item.class === input.class);
 
-      if (selectedClass) {
-        console.log("Turma selecionada:", selectedClass); // Adição do log
-        fetchCandidates(selectedClass);
-      } else {
-        console.log("Seleção cancelada");
-        setCandidates([]);
-      }
-    };
+      setCandidates(filteredData);
+    } catch (error) {
+      console.error("Error fetching candidates: ", error);
+    }
+  };
 
-    showClassSelection();
+  useEffect(() => {
+    fetchCandidates();
   }, [input]);
 
   useEffect(() => {
@@ -59,6 +46,10 @@ function Urn(input) {
 
     handleConfirmedCandidate();
   }, [confirmedCandidate]);
+
+  useState(() => {
+    fetchCandidates();
+  }, []);
 
   const playSound = () => {
     const audio = new Audio(UrnBip);
@@ -82,8 +73,7 @@ function Urn(input) {
       if (candidateDoc.exists()) {
         const currentVotes = parseInt(candidateDoc.data().votes || 0, 10);
         await updateDoc(candidateDocRef, { votes: currentVotes + 1 });
-        setShowEnd(true);
-        playSound();
+        handleOption();
       } else {
         console.warn("No such document!");
       }
@@ -120,12 +110,8 @@ function Urn(input) {
       handleOption();
     } else {
       const candidate = candidates.find((c) => {
-        console.log("Candidato encontrado?", c); // Adicionado console.log para verificar candidato
-        console.log("Valor digitado:", inputValue); // Adicionado console.log para verificar valor digitado
         return c.id.toString() === inputValue;
       });
-
-      console.log("Lista de candidatos:", candidates); // Adicionado console.log para verificar lista de candidatos
 
       if (candidate) {
         setSelectedCandidate(candidate);
