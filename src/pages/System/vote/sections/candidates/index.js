@@ -16,6 +16,7 @@ function Candidates(input) {
 
   useEffect(() => {
     const fetchCandidates = async () => {
+      setLoading(true);
       try {
         const db = getFirestore(app);
 
@@ -36,6 +37,7 @@ function Candidates(input) {
         console.error("Error fetching candidates: ", error);
         setLoading(false);
       }
+      setLoading(false);
     };
 
     fetchCandidates();
@@ -43,7 +45,13 @@ function Candidates(input) {
 
   if (loading) {
     return (
-      <DefaultCounterCard count={100} suffix="%" title="Carregando..." description="candidatos" />
+      <DefaultCounterCard
+        count={100}
+        time={1}
+        suffix="%"
+        title="Carregando..."
+        description="candidatos"
+      />
     );
   }
 
