@@ -19,15 +19,19 @@ export const AuthGoogleProvider = ({ children }) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const user = result.user;
-        console.log(user);
-        console.log(token);
-        Swal.fire("Sucesso!", `Olá, ${user.displayName}!`);
         setUser(user);
         sessionStorage.setItem("@AuthFirebase:token", token);
         sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(user));
-        setTimeout(() => {
+        Swal.fire({
+          title: "Concluído!",
+          text: `Agora você tem acesso ao site.`,
+          icon: "success",
+          timer: 6000,
+          timerProgressBar: true,
+          showConfirmButton: true,
+        }).then(() => {
           document.location = "/";
-        }, 2000);
+        });
       })
       .catch((error) => {
         console.log("Erro: ", error);

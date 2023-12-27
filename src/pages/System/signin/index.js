@@ -121,6 +121,9 @@ function SignIn() {
                       &nbsp;&nbsp;Lembre de Mim
                     </MKTypography>
                   </MKBox>
+                  <form action="?" method="get">
+                    <div className="g-recaptcha" data-sitekey="your_site_key"></div>
+                  </form>
                   <MKBox mt={4} mb={1}>
                     <MKButton variant="gradient" color="info" fullWidth>
                       Entrar
