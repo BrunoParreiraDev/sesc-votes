@@ -43,7 +43,7 @@ import { AuthGoogleContext } from "contexts/authGoogle";
 
 function SignIn() {
   const [rememberMe, setRememberMe] = useState(false);
-  const { signInGoogle, signed } = useContext(AuthGoogleContext);
+  const { signInGoogle, signed, signOutGoogle } = useContext(AuthGoogleContext);
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
   console.log("logado:", signed);
   console.log("storage:", sessionStorage.getItem("@AuthFirebase:user"));
@@ -94,7 +94,7 @@ function SignIn() {
                   </Grid>
                   <Grid item xs={2}>
                     <MKTypography component={MuiLink} href="#" variant="body1" color="white">
-                      <GitHubIcon color="inherit" />
+                      <GitHubIcon color="inherit" onClick={() => signOutGoogle()} />
                     </MKTypography>
                   </Grid>
                   <Grid item xs={2}>
