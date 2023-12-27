@@ -30,10 +30,19 @@ function Vote() {
         // Código a ser executado quando o usuário confirmar
         // Exemplo: executarFuncao();
         // ...
-        Swal.fire("Concluído!", "A finalização da urna foi realizada.", "success");
+        Swal.fire({
+          title: "Concluído!",
+          text: "A finalização da urna foi realizada.",
+          icon: "success",
+          timer: 3000,
+          timerProgressBar: true,
+          showConfirmButton: true,
+        }).then(() => {
+          document.location = "/";
+        });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         // Se o usuário cancelar, exibe um alerta informando que cancelou a finalização
-        alert("Você cancelou a finalização da urna.");
+        Swal.fire("Sucesso!", "Você cancelou a finalização da urna.", "success");
       }
     });
   };
@@ -81,10 +90,12 @@ function Vote() {
               </MKBox>
             </Grid>
           </Grid>
+          <Grid item mb={3}>
+            <MKButton variant="gradient" fullWidth color="info" onClick={handleFinish}>
+              Finalizar
+            </MKButton>
+          </Grid>
           <Urn class={input} />
-          <MKBox>
-            <MKButton onClick={handleFinish}>Finalizar</MKButton>
-          </MKBox>
           <Candidates class={input} />
         </Container>
       </Card>
