@@ -15,14 +15,16 @@ Coded by www.creative-tim.com
 import Icon from "@mui/material/Icon";
 
 // Pages
-import AboutUs from "layouts/pages/docs/about-us";
-import Environment from "layouts/pages/docs/environment";
-import VoteDocs from "layouts/pages/docs/vote";
-import Teacher from "layouts/pages/docs/teacher";
-import Register from "layouts/pages/system/register";
-import SignIn from "layouts/pages/system/signin";
-import SignOut from "layouts/pages/system/signout";
-import Vote from "layouts/pages/system/vote";
+import AboutUsPage from "layouts/pages/docs/about-us";
+import EnvironmentPage from "layouts/pages/docs/environment";
+import VoteDocsPage from "layouts/pages/docs/vote";
+import TeacherPage from "layouts/pages/docs/teacher";
+import RegisterPage from "layouts/pages/system/register";
+import SignInPage from "layouts/pages/system/signin";
+import SignOutPage from "layouts/pages/system/signout";
+import VotePage from "layouts/pages/system/vote";
+import ResultsPage from "layouts/pages/system/results";
+import ChartsPagePage from "layouts/pages/system/charts";
 
 const routes = [
   {
@@ -37,22 +39,22 @@ const routes = [
           {
             name: "Sobre Nós",
             route: "/docs/about-us",
-            component: <AboutUs />,
+            component: <AboutUsPage />,
           },
           {
             name: "Configurando o Ambiente",
             route: "/docs/environment",
-            component: <Environment />,
+            component: <EnvironmentPage />,
           },
           {
             name: "Votação",
             route: "/docs/vote",
-            component: <VoteDocs />,
+            component: <VoteDocsPage />,
           },
           {
             name: "Professor",
             route: "/docs/teacher",
-            component: <Teacher />,
+            component: <TeacherPage />,
           },
         ],
       },
@@ -70,22 +72,22 @@ const routes = [
           {
             name: "Votar",
             route: "/system/vote",
-            component: <Vote />,
+            component: <VotePage />,
           },
           {
             name: "Registrar candidato",
             route: "/system/register",
-            component: <Register />,
+            component: <RegisterPage />,
           },
           {
             name: "Resultados",
             route: "/system/results",
-            component: <AboutUs />,
+            component: <ResultsPage />,
           },
           {
             name: "Gráficos",
             route: "/system/charts",
-            component: <AboutUs />,
+            component: <ChartsPagePage />,
           },
         ],
       },
@@ -97,7 +99,11 @@ const routes = [
             route: sessionStorage.getItem("@AuthFirebase:user")
               ? "/system/signout"
               : "/system/signin",
-            component: sessionStorage.getItem("@AuthFirebase:user") ? <SignOut /> : <SignIn />,
+            component: sessionStorage.getItem("@AuthFirebase:user") ? (
+              <SignOutPage />
+            ) : (
+              <SignInPage />
+            ),
           },
         ],
       },
