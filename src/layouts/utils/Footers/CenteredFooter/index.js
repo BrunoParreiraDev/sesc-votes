@@ -31,7 +31,7 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 function CenteredFooter({ company, links, socials, light }) {
-  const { href, name } = company;
+  const { href } = company;
 
   const year = new Date().getFullYear();
 
@@ -82,7 +82,6 @@ function CenteredFooter({ company, links, socials, light }) {
         </Grid>
         <Grid item xs={12} lg={8} sx={{ textAlign: "center" }}>
           <MKTypography variant="body2" color={light ? "white" : "secondary"}>
-            Copyright &copy;, Todos os direitos reservados, Criado por{" "}
             <MKTypography
               component={Link}
               href={href}
@@ -91,9 +90,9 @@ function CenteredFooter({ company, links, socials, light }) {
               variant="body2"
               color={light ? "white" : "secondary"}
             >
-              {name} {year}
-            </MKTypography>
-            .
+              BrunoSoft.
+            </MKTypography>{" "}
+            Todos os Direitos Reservados. Copyright &copy; 2022-{year}
           </MKTypography>
         </Grid>
       </Grid>
