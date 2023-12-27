@@ -12,10 +12,14 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+import { useEffect } from "react";
 
 // Material Kit 2 React pages
 import SignIn from "pages/System/signin";
 
 export default function SignInPage() {
+  useEffect(() => {
+    document.title = "Sesc Votes - Entrar";
+  }, []);
   return <SignIn />;
 }
