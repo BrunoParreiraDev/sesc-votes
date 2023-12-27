@@ -12,10 +12,14 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+import { useEffect } from "react";
 
 // Material Kit 2 React pages
 import Results from "pages/System/results";
 
 export default function ResultsPage() {
+  useEffect(() => {
+    document.title = "Sesc Votes - Resultados";
+  }, []);
   return <Results />;
 }

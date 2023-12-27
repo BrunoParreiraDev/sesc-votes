@@ -15,7 +15,11 @@ Coded by www.creative-tim.com
 
 // Material Kit 2 React pages
 import Presentation from "pages/Presentation";
+import { useEffect } from "react";
 
 export default function PresentationPage() {
+  useEffect(() => {
+    document.title = "Sesc Votes - Início";
+  }, []);
   return <Presentation />;
 }
