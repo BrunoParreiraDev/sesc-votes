@@ -24,7 +24,7 @@ import SignInPage from "layouts/pages/system/signin";
 import SignOutPage from "layouts/pages/system/signout";
 import VotePage from "layouts/pages/system/vote";
 import ResultsPage from "layouts/pages/system/results";
-import ChartsPagePage from "layouts/pages/system/charts";
+import ChartsPage from "layouts/pages/system/charts";
 
 const routes = [
   {
@@ -87,7 +87,7 @@ const routes = [
           {
             name: "Gráficos",
             route: "/system/charts",
-            component: <ChartsPagePage />,
+            component: <ChartsPage />,
           },
         ],
       },
