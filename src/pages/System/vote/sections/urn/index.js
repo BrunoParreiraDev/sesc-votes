@@ -67,7 +67,7 @@ function Urn(input) {
     const db = getFirestore(app);
 
     if (selectedCandidate) {
-      const candidateDocRef = doc(db, "candidates", String(selectedCandidate.id || "0"));
+      const candidateDocRef = doc(db, "candidates", String(selectedCandidate.id));
       const candidateDoc = await getDoc(candidateDocRef);
 
       if (candidateDoc.exists()) {
@@ -109,6 +109,7 @@ function Urn(input) {
     } else if (confirmedCandidate === "Votar Nulo?") {
       handleOption();
     } else {
+      console.log(typeof candidates);
       const candidate = candidates.find((c) => {
         return c.id.toString() === inputValue;
       });

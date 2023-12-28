@@ -3,6 +3,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import MKBox from "components/MKBox";
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
+import MKTypography from "components/MKTypography";
 import Dashboard from "./sections/Dashboard";
 
 function Results() {
@@ -22,12 +23,14 @@ function Results() {
               p={10}
               mb={10}
             >
-              <h3>Results</h3>
-            </MKBox>
-          </Grid>
-          <Grid item xs={12}>
-            <MKBox>
-              <Dashboard />
+              <MKTypography color="dark" variant="h1" my={3}>
+                Resultados
+              </MKTypography>
+              <Grid item xs={12}>
+                <MKBox>
+                  <Dashboard />
+                </MKBox>
+              </Grid>
             </MKBox>
           </Grid>
         </Grid>
