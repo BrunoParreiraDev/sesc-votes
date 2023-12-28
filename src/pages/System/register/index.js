@@ -4,6 +4,7 @@ import Card from "@mui/material/Card";
 import MKBox from "components/MKBox";
 import Form from "./section/Form";
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
+import Swal from "sweetalert2";
 import { app } from "services/FirebaseConfig";
 
 function Register() {
@@ -16,6 +17,11 @@ function Register() {
       console.log("Document written with ID: ", docRef.id);
     } catch (error) {
       console.error("Error adding document: ", error);
+      Swal.fire(
+        "Ops, algo deu errado!",
+        `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
+        "warning"
+      );
     }
   };
 

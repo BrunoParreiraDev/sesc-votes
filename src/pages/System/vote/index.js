@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
@@ -8,43 +8,86 @@ import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
 import Urn from "./sections/urn";
 import Candidates from "./sections/candidates";
 import Swal from "sweetalert2";
+import { getFirestore, updateDoc, doc, getDoc, getDocs, collection } from "firebase/firestore";
+
+import { app } from "services/FirebaseConfig";
 
 function Vote() {
   const [input, setInput] = useState("7 (A)");
+  const db = getFirestore(app);
+
+  useEffect(() => {
+    const fetchClassInfo = async () => {
+      if (input) {
+        const classesDocRef = doc(db, "classes", input);
+        const classesDoc = await getDoc(classesDocRef);
+
+        if (classesDoc.exists()) {
+          const finished = classesDoc.data().finished;
+          if (finished) {
+            Swal.fire("Oops!", `Parece que a eleição do ${input} já foi finalizada.`);
+            setInput("");
+          }
+        } else {
+          console.warn("No such document!");
+        }
+      }
+    };
+
+    fetchClassInfo();
+  }, [input, db]);
 
   const handleInputChange = (event) => {
     setInput(event.target.value);
   };
 
-  const handleFinish = () => {
-    Swal.fire({
-      title: "Finalizar a urna?",
-      text: "Esta ação concluirá o processo. Deseja continuar?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Sim",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Se o usuário confirmar, execute o código desejado aqui
-        // Código a ser executado quando o usuário confirmar
-        // Exemplo: executarFuncao();
-        // ...
-        Swal.fire({
-          title: "Concluído!",
-          text: "A finalização da urna foi realizada.",
-          icon: "success",
-          timer: 3000,
-          timerProgressBar: true,
-          showConfirmButton: true,
-        }).then(() => {
-          document.location = "/";
-        });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        // Se o usuário cancelar, exibe um alerta informando que cancelou a finalização
-        Swal.fire("Sucesso!", "Você cancelou a finalização da urna.", "success");
+  const handleFinish = async () => {
+    try {
+      const classesDocRef = doc(db, "classes", input);
+      const classesDoc = await getDoc(classesDocRef);
+
+      if (classesDoc.exists()) {
+        const finished = classesDoc.data().finished;
+
+        if (!finished) {
+          const querySnapshot = await getDocs(collection(db, "candidates"));
+          const candidatesData = querySnapshot.docs
+            .filter((doc) => doc.data().class === input)
+            .map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }));
+
+          const sortedCandidates = candidatesData.sort((a, b) => b.votes - a.votes);
+          const winner = sortedCandidates[0];
+          const runnerUp = sortedCandidates[1];
+
+          await updateDoc(classesDocRef, {
+            finished: true,
+            id_winner: winner.id,
+            id_runnerUp: runnerUp.id,
+          });
+
+          Swal.fire({
+            title: "Resultados da Eleição",
+            html: `
+              <p>Vencedor: ${winner.name} com ${winner.votes} votos</p>
+              <p>Vice-líder: ${runnerUp.name} com ${runnerUp.votes} votos</p>
+            `,
+            icon: "success",
+            showConfirmButton: true,
+          }).then(() => {
+            document.location = "/";
+          });
+        } else {
+          Swal.fire("Oops!", `Parece que a eleição do ${input} já foi finalizada.`);
+        }
+      } else {
+        console.warn("No such document!");
       }
-    });
+    } catch (error) {
+      console.error("Error finishing the election:", error);
+    }
   };
 
   return (
