@@ -55,19 +55,19 @@ export const AuthGoogleProvider = ({ children }) => {
   };
 
   const signInEmail = (email) => {
+    // Verificar se o usuário já está autenticado
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      // Se já estiver autenticado, redirecione para a página principal ou dashboard
+      document.location = "/";
+      return;
+    }
+
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
       .then(() => {
         sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(email));
-        Swal.fire({
-          title: "Concluído!",
-          text: `Agora você tem acesso ao site.`,
-          icon: "success",
-          timer: 6000,
-          timerProgressBar: true,
-          showConfirmButton: true,
-        }).then(() => {
-          document.location = "/";
-        });
+        // Redirecione para a página inicial após o login
+        document.location = "/";
       })
       .catch((error) => {
         const errorCode = error.code;
