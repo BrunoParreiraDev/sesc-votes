@@ -1,11 +1,4 @@
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signOut,
-  sendSignInLinkToEmail,
-  isSignInWithEmailLink,
-  signInWithPopup,
-} from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signOut, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
 import { createContext } from "react";
 import { app } from "services/FirebaseConfig";
@@ -40,7 +33,7 @@ export const AuthToUse = ({ children }) => {
         }).then(() => (window.location = "/system/signin"));
       } else {
         Swal.fire("Entendido!", "Sem problemas, estamos por aqui se precisar!", "info").then(
-          () => (window.location = "/")
+          () => (document.location = "/")
         );
       }
     });
@@ -50,42 +43,6 @@ export const AuthToUse = ({ children }) => {
 export const AuthGoogleProvider = ({ children }) => {
   const auth = getAuth(app);
   const [user, setUser] = useState(null);
-  const actionCodeSettings = {
-    url: "https://sesc.netlify.app/system/signin",
-    handleCodeInApp: true,
-  };
-
-  const signInEmail = () => {
-    // Verifica se o link de login por email está presente na URL
-    if (isSignInWithEmailLink(auth, window.location.href)) {
-      // Recupera o email do sessionStorage ou pede ao usuário para fornecê-lo
-      let email = sessionStorage.getItem("email");
-      if (!email) {
-        email = window.prompt("Please provide your email for confirmation");
-      }
-
-      // Envia o link de login para o email fornecido
-      sendSignInLinkToEmail(auth, email, actionCodeSettings)
-        .then(() => {
-          // Define o email no sessionStorage e exibe um alerta de sucesso
-          sessionStorage.setItem("email", email);
-          Swal.fire({
-            title: "Concluído!",
-            text: `Agora acesse o seu email e siga os passos.`,
-            icon: "success",
-            timer: 6000,
-            timerProgressBar: true,
-            showConfirmButton: true,
-          });
-        })
-        .catch((error) => {
-          // Em caso de erro, exibe um alerta com a mensagem de erro
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          Swal.fire("Ops!", `${errorMessage} - (${errorCode})`, "error");
-        });
-    }
-  };
 
   const signInGoogle = () => {
     signInWithPopup(auth, provider)
@@ -123,7 +80,7 @@ export const AuthGoogleProvider = ({ children }) => {
         sessionStorage.removeItem("@AuthFirebase:user");
         sessionStorage.removeItem("@AuthFirebase:token");
         setUser(null);
-        document.location = "/";
+        document.location = "/system/signin";
       })
       .catch((error) => {
         console.log("Erro ao desconectar o usuário: ", error);
@@ -136,9 +93,7 @@ export const AuthGoogleProvider = ({ children }) => {
   };
 
   return (
-    <AuthGoogleContext.Provider
-      value={{ signInGoogle, signed: !!user, signOutGoogle, signInEmail }}
-    >
+    <AuthGoogleContext.Provider value={{ signInGoogle, signed: !!user, signOutGoogle }}>
       {children}
     </AuthGoogleContext.Provider>
   );

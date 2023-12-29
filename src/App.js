@@ -20,12 +20,13 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "assets/theme";
 import Presentation from "layouts/pages/presentation";
-import routes from "routes";
+import { routes } from "routes";
 import { AuthGoogleProvider } from "contexts/authGoogle";
 import { AuthGithubProvider } from "contexts/authGithub";
 
 export default function App() {
   const { pathname } = useLocation();
+  const user = sessionStorage.getItem("@AuthFirebase:user");
 
   useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -52,12 +53,19 @@ export default function App() {
           <DefaultNavbar
             routes={routes}
             action={
-              !sessionStorage.getItem("@AuthFirebase:user") && {
-                type: "internal",
-                route: "system/signin",
-                label: "Entrar",
-                color: "info",
-              }
+              user
+                ? {
+                    type: "internal",
+                    route: "system/signout",
+                    label: "Sair",
+                    color: "error",
+                  }
+                : {
+                    type: "internal",
+                    route: "system/signin",
+                    label: "Entrar",
+                    color: "info",
+                  }
             }
             dark
           />
