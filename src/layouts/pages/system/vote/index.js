@@ -16,10 +16,15 @@ import { useEffect } from "react";
 
 // Material Kit 2 React pages
 import Vote from "pages/System/vote";
+import { AuthToUse } from "contexts/authGoogle";
 
 export default function VotePage() {
   useEffect(() => {
     document.title = "Sesc Votes - Votar";
   }, []);
-  return <Vote />;
+  return (
+    <AuthToUse>
+      <Vote />
+    </AuthToUse>
+  );
 }

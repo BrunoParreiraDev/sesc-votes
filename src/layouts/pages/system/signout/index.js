@@ -12,14 +12,20 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { useEffect } from "react";
-
-// Material Kit 2 React pages
-import SignOut from "pages/System/signout";
+import { useEffect, useContext } from "react";
+import { AuthGoogleContext } from "contexts/authGoogle";
 
 export default function SignOutPage() {
+  const { signOutGoogle } = useContext(AuthGoogleContext);
+  signOutGoogle();
+
   useEffect(() => {
     document.title = "Sesc Votes - Sair";
   }, []);
-  return <SignOut />;
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <p>Desconectando...</p>
+    </div>
+  );
 }
