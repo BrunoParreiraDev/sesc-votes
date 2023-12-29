@@ -17,7 +17,19 @@ import React from "react";
 import * as ReactDOMClient from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "App";
-import registerServiceWorker from "services/ServiceWorker";
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/service-worker.js")
+      .then((registration) => {
+        console.log("Service Worker registrado com sucesso!", registration.scope);
+      })
+      .catch((error) => {
+        console.error("Erro ao registrar o Service Worker:", error);
+      });
+  });
+}
 
 const container = document.getElementById("root");
 
@@ -29,4 +41,3 @@ root.render(
     <App />
   </BrowserRouter>
 );
-registerServiceWorker();

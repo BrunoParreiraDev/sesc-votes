@@ -1,8 +1,6 @@
 const CACHE_NAME = "sesc-votes";
 const urlsToCache = [
   "/",
-  "/index.html",
-  "/404.html",
   "/presentation",
   "/docs/about-us",
   "/docs/environment",
@@ -32,7 +30,7 @@ self.addEventListener("fetch", (event) => {
             });
           })
           .catch(() => {
-            return caches.match("/offline.html");
+            return caches.match("/index.html");
           })
       );
     })
