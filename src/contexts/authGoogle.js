@@ -65,6 +65,7 @@ export const AuthGoogleProvider = ({ children }) => {
 
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
       .then(() => {
+        // EMAIL EXPOSTO - LEMBRE DE APAGAR FUTURAMENTE
         console.log(email);
         sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(email));
         // Redirecione para a página inicial após o login
