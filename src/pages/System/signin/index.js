@@ -22,7 +22,6 @@ import Grid from "@mui/material/Grid";
 import MuiLink from "@mui/material/Link";
 
 // @mui icons
-import FacebookIcon from "@mui/icons-material/Facebook";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 
@@ -42,7 +41,7 @@ import { AuthGoogleContext } from "contexts/authGoogle";
 import { AuthGithubContext } from "contexts/authGithub";
 
 function SignIn() {
-  const { signInGoogle, signOutGoogle, signInEmail } = useContext(AuthGoogleContext);
+  const { signInGoogle, signInEmail } = useContext(AuthGoogleContext);
   const { signInGithub } = useContext(AuthGithubContext);
   const [rememberMe, setRememberMe] = useState(false);
   const [email, setEmail] = useState("");
@@ -95,17 +94,12 @@ function SignIn() {
                   Entrar
                 </MKTypography>
                 <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
-                  <Grid item xs={2}>
-                    <MKTypography component={MuiLink} href="#" variant="body1" color="white">
-                      <FacebookIcon color="inherit" onClick={signOutGoogle} />
-                    </MKTypography>
-                  </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={6}>
                     <MKTypography component={MuiLink} href="#" variant="body1" color="white">
                       <GitHubIcon color="inherit" onClick={signInGithub} />
                     </MKTypography>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={6}>
                     <MKTypography component={MuiLink} href="#" variant="body1" color="white">
                       <GoogleIcon color="inherit" onClick={signInGoogle} />
                     </MKTypography>
