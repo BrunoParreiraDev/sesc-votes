@@ -2,7 +2,6 @@
 =========================================================
 * Material Kit 2 React - v2.1.0
 =========================================================
-
 * Product Page: https://www.creative-tim.com/product/material-kit-react
 * Copyright 2023 Creative Tim (https://www.creative-tim.com)
 
@@ -25,13 +24,14 @@ import SignOutPage from "layouts/pages/system/signout";
 import VotePage from "layouts/pages/system/vote";
 import ResultsPage from "layouts/pages/system/results";
 import ChartsPage from "layouts/pages/system/charts";
-import PresentationPage from "layouts/pages/presentation";
 
-const user = sessionStorage.getItem("@AuthFirebase:user");
-
-console.log(user.displayName);
+const user = JSON.parse(sessionStorage.getItem("@AuthFirebase:user"));
 
 export const routes = [
+  {
+    name: user && user.displayName,
+    icon: user && <Icon>people</Icon>,
+  },
   {
     name: "Páginas",
     icon: <Icon>dashboard</Icon>,
@@ -41,11 +41,6 @@ export const routes = [
       {
         name: "Documentação",
         collapse: [
-          user && {
-            name: user,
-            route: "/presentation",
-            component: <PresentationPage />,
-          },
           {
             name: "Sobre Nós",
             route: "/docs/about-us",
@@ -79,11 +74,6 @@ export const routes = [
       {
         name: "Votar",
         collapse: [
-          user && {
-            name: user,
-            route: "/presentation",
-            component: <PresentationPage />,
-          },
           {
             name: "Votar",
             route: "/system/vote",

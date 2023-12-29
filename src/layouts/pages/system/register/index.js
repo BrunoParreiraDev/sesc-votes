@@ -13,6 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 import { useEffect } from "react";
+import { AuthToUse } from "contexts/authGoogle";
 
 // Material Kit 2 React pages
 import Register from "pages/System/register";
@@ -21,5 +22,9 @@ export default function RegisterPage() {
   useEffect(() => {
     document.title = "Sesc Votes - Cadastrar";
   }, []);
-  return <Register />;
+  return (
+    <AuthToUse>
+      <Register />
+    </AuthToUse>
+  );
 }

@@ -1,13 +1,13 @@
 import { initializeApp } from "firebase/app";
 
-export const firebaseConfig = {
-  apiKey: "AIzaSyAz5huf5rbXBYuHrs-wzDCMrYWFNKTjO3M",
-  authDomain: "sesc-votes.firebaseapp.com",
-  projectId: "sesc-votes",
-  storageBucket: "sesc-votes.appspot.com",
-  messagingSenderId: "14874330511",
-  appId: "1:14874330511:web:65f8a9b033b0a8cd8af7fa",
-  measurementId: "G-G5GBSSN9RM",
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 export const app = initializeApp(firebaseConfig);
