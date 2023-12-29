@@ -29,10 +29,6 @@ const user = JSON.parse(sessionStorage.getItem("@AuthFirebase:user"));
 
 export const routes = [
   {
-    name: user && user.displayName,
-    icon: user && <Icon>people</Icon>,
-  },
-  {
     name: "Páginas",
     icon: <Icon>dashboard</Icon>,
     columns: 1,
