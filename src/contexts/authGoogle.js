@@ -1,9 +1,10 @@
 import {
   getAuth,
-  signInWithRedirect,
   GoogleAuthProvider,
   signOut,
   sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithPopup,
 } from "firebase/auth";
 import { useState } from "react";
 import { createContext } from "react";
@@ -54,34 +55,42 @@ export const AuthGoogleProvider = ({ children }) => {
     handleCodeInApp: true,
   };
 
-  const signInEmail = (email) => {
-    // Verificar se o usuário já está autenticado
-    const currentUser = auth.currentUser;
-    if (currentUser) {
-      // Se já estiver autenticado, redirecione para a página principal ou dashboard
-      document.location = "/";
-      return;
-    }
+  const signInEmail = () => {
+    // Verifica se o link de login por email está presente na URL
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+      // Recupera o email do sessionStorage ou pede ao usuário para fornecê-lo
+      let email = sessionStorage.getItem("email");
+      if (!email) {
+        email = window.prompt("Please provide your email for confirmation");
+      }
 
-    sendSignInLinkToEmail(auth, email, actionCodeSettings)
-      .then(() => {
-        // EMAIL EXPOSTO - LEMBRE DE APAGAR FUTURAMENTE
-        console.log(email);
-        sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(email));
-        // Redirecione para a página inicial após o login
-        document.location = "/";
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        Swal.fire("Ops!", `${errorMessage} - (${errorCode})`, "error");
-      });
+      // Envia o link de login para o email fornecido
+      sendSignInLinkToEmail(auth, email, actionCodeSettings)
+        .then(() => {
+          // Define o email no sessionStorage e exibe um alerta de sucesso
+          sessionStorage.setItem("email", email);
+          Swal.fire({
+            title: "Concluído!",
+            text: `Agora acesse o seu email e siga os passos.`,
+            icon: "success",
+            timer: 6000,
+            timerProgressBar: true,
+            showConfirmButton: true,
+          });
+        })
+        .catch((error) => {
+          // Em caso de erro, exibe um alerta com a mensagem de erro
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          Swal.fire("Ops!", `${errorMessage} - (${errorCode})`, "error");
+        });
+    }
   };
 
   const signInGoogle = () => {
-    signInWithRedirect(auth, provider)
+    signInWithPopup(auth, provider)
       .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const credential = GoogleAuthProvider.credential(result);
         const token = credential.accessToken;
         const user = result.user;
         setUser(user);
