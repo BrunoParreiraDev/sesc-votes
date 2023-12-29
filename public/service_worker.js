@@ -1,13 +1,5 @@
 const CACHE_NAME = "sesc-votes";
-const urlsToCache = [
-  "/",
-  "/presentation",
-  "/docs/about-us",
-  "/docs/environment",
-  "/docs/vote",
-  "/docs/teacher",
-  "/assets/logo.png",
-];
+const urlsToCache = ["/", "/index.html"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

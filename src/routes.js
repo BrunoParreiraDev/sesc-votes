@@ -25,8 +25,13 @@ import SignOutPage from "layouts/pages/system/signout";
 import VotePage from "layouts/pages/system/vote";
 import ResultsPage from "layouts/pages/system/results";
 import ChartsPage from "layouts/pages/system/charts";
+import PresentationPage from "layouts/pages/presentation";
 
-const routes = [
+const user = sessionStorage.getItem("@AuthFirebase:user");
+
+console.log(user.displayName);
+
+export const routes = [
   {
     name: "Páginas",
     icon: <Icon>dashboard</Icon>,
@@ -36,6 +41,11 @@ const routes = [
       {
         name: "Documentação",
         collapse: [
+          user && {
+            name: user,
+            route: "/presentation",
+            component: <PresentationPage />,
+          },
           {
             name: "Sobre Nós",
             route: "/docs/about-us",
@@ -69,6 +79,11 @@ const routes = [
       {
         name: "Votar",
         collapse: [
+          user && {
+            name: user,
+            route: "/presentation",
+            component: <PresentationPage />,
+          },
           {
             name: "Votar",
             route: "/system/vote",
@@ -95,20 +110,12 @@ const routes = [
         name: "Perfil",
         collapse: [
           {
-            name: sessionStorage.getItem("@AuthFirebase:user") ? "Sair" : "Entrar",
-            route: sessionStorage.getItem("@AuthFirebase:user")
-              ? "/system/signout"
-              : "/system/signin",
-            component: sessionStorage.getItem("@AuthFirebase:user") ? (
-              <SignOutPage />
-            ) : (
-              <SignInPage />
-            ),
+            name: user ? "Sair" : "Entrar",
+            route: user ? "/system/signout" : "/system/signin",
+            component: user ? <SignOutPage /> : <SignInPage />,
           },
         ],
       },
     ],
   },
 ];
-
-export default routes;
