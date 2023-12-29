@@ -132,6 +132,7 @@ export const AuthGoogleProvider = ({ children }) => {
     </AuthGoogleContext.Provider>
   );
 };
+
 AuthGoogleProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
