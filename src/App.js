@@ -22,6 +22,7 @@ import theme from "assets/theme";
 import Presentation from "layouts/pages/presentation";
 import routes from "routes";
 import { AuthGoogleProvider } from "contexts/authGoogle";
+import { AuthGithubProvider } from "contexts/authGithub";
 
 export default function App() {
   const { pathname } = useLocation();
@@ -45,27 +46,29 @@ export default function App() {
     });
 
   return (
-    <AuthGoogleProvider>
-      <ThemeProvider theme={theme}>
-        <DefaultNavbar
-          routes={routes}
-          action={
-            !sessionStorage.getItem("@AuthFirebase:user") && {
-              type: "internal",
-              route: "system/signin",
-              label: "Entrar",
-              color: "info",
+    <AuthGithubProvider>
+      <AuthGoogleProvider>
+        <ThemeProvider theme={theme}>
+          <DefaultNavbar
+            routes={routes}
+            action={
+              !sessionStorage.getItem("@AuthFirebase:user") && {
+                type: "internal",
+                route: "system/signin",
+                label: "Entrar",
+                color: "info",
+              }
             }
-          }
-          dark
-        />
-        <CssBaseline />
-        <Routes>
-          {getRoutes(routes)}
-          <Route path="/presentation" element={<Presentation />} />
-          <Route path="*" element={<Navigate to="/presentation" />} />
-        </Routes>
-      </ThemeProvider>
-    </AuthGoogleProvider>
+            dark
+          />
+          <CssBaseline />
+          <Routes>
+            {getRoutes(routes)}
+            <Route path="/presentation" element={<Presentation />} />
+            <Route path="*" element={<Navigate to="/presentation" />} />
+          </Routes>
+        </ThemeProvider>
+      </AuthGoogleProvider>
+    </AuthGithubProvider>
   );
 }

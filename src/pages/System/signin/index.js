@@ -38,8 +38,12 @@ import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 // Google auth
 import { AuthGoogleContext } from "contexts/authGoogle";
 
+// Github auth
+import { AuthGithubContext } from "contexts/authGithub";
+
 function SignIn() {
   const { signInGoogle, signOutGoogle, signInEmail } = useContext(AuthGoogleContext);
+  const { signInGithub } = useContext(AuthGithubContext);
   const [rememberMe, setRememberMe] = useState(false);
   const [email, setEmail] = useState("");
 
@@ -93,17 +97,17 @@ function SignIn() {
                 <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
                   <Grid item xs={2}>
                     <MKTypography component={MuiLink} href="#" variant="body1" color="white">
-                      <FacebookIcon color="inherit" />
+                      <FacebookIcon color="inherit" onClick={signOutGoogle} />
                     </MKTypography>
                   </Grid>
                   <Grid item xs={2}>
                     <MKTypography component={MuiLink} href="#" variant="body1" color="white">
-                      <GitHubIcon color="inherit" onClick={() => signOutGoogle()} />
+                      <GitHubIcon color="inherit" onClick={signInGithub} />
                     </MKTypography>
                   </Grid>
                   <Grid item xs={2}>
                     <MKTypography component={MuiLink} href="#" variant="body1" color="white">
-                      <GoogleIcon color="inherit" onClick={() => signInGoogle()} />
+                      <GoogleIcon color="inherit" onClick={signInGoogle} />
                     </MKTypography>
                   </Grid>
                 </Grid>
