@@ -34,27 +34,26 @@ import MKButton from "components/MKButton";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
-// Google auth
 import { AuthGoogleContext } from "contexts/authGoogle";
-
-// Github auth
 import { AuthGithubContext } from "contexts/authGithub";
 
 function SignIn() {
+  // Declarações de estados e contextos
   const { signInGoogle, signInEmail } = useContext(AuthGoogleContext);
   const { signInGithub } = useContext(AuthGithubContext);
   const [rememberMe, setRememberMe] = useState(false);
   const [email, setEmail] = useState("");
 
+  // Funções de manipulação de eventos
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
-
   const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+    setEmail(event.target.value.trim());
   };
   const handleFormSubmit = () => {
     signInEmail(email);
   };
 
+  // Renderização do componente
   return (
     <>
       <MKBox
