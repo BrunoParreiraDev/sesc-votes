@@ -39,11 +39,18 @@ import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 import { AuthGoogleContext } from "contexts/authGoogle";
 
 function SignIn() {
+  const { signInGoogle, signOutGoogle, signInEmail } = useContext(AuthGoogleContext);
   const [rememberMe, setRememberMe] = useState(false);
-  const { signInGoogle, signed, signOutGoogle } = useContext(AuthGoogleContext);
+  const [email, setEmail] = useState("");
+
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
-  console.log("logado:", signed);
-  console.log("storage:", sessionStorage.getItem("@AuthFirebase:user"));
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+  const handleFormSubmit = () => {
+    signInEmail(email);
+  };
 
   return (
     <>
@@ -104,10 +111,13 @@ function SignIn() {
               <MKBox pt={4} pb={3} px={3}>
                 <MKBox component="form" role="form">
                   <MKBox mb={2}>
-                    <MKInput type="email" label="Email" fullWidth />
-                  </MKBox>
-                  <MKBox mb={2}>
-                    <MKInput type="password" label="Password" fullWidth />
+                    <MKInput
+                      type="email"
+                      value={email}
+                      onChange={handleEmailChange}
+                      label="Email"
+                      fullWidth
+                    />
                   </MKBox>
                   <MKBox display="flex" alignItems="center" ml={-1}>
                     <Switch checked={rememberMe} onChange={handleSetRememberMe} />
@@ -121,11 +131,8 @@ function SignIn() {
                       &nbsp;&nbsp;Lembre de Mim
                     </MKTypography>
                   </MKBox>
-                  <form action="?" method="get">
-                    <div className="g-recaptcha" data-sitekey="your_site_key"></div>
-                  </form>
                   <MKBox mt={4} mb={1}>
-                    <MKButton variant="gradient" color="info" fullWidth>
+                    <MKButton variant="gradient" color="info" fullWidth onClick={handleFormSubmit}>
                       Entrar
                     </MKButton>
                   </MKBox>

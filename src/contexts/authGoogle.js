@@ -1,4 +1,10 @@
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import {
+  getAuth,
+  signInWithRedirect,
+  GoogleAuthProvider,
+  signOut,
+  sendSignInLinkToEmail,
+} from "firebase/auth";
 import { useState } from "react";
 import { createContext } from "react";
 import { app } from "services/FirebaseConfig";
@@ -9,12 +15,69 @@ const provider = new GoogleAuthProvider();
 
 export const AuthGoogleContext = createContext({});
 
+export const AuthToUse = ({ children }) => {
+  const user = sessionStorage.getItem("@AuthFirebase:user");
+  const token = sessionStorage.getItem("@AuthFirebase:token");
+
+  if (!!user && !!token) {
+    return children;
+  } else {
+    Swal.fire({
+      icon: "warning",
+      title: "Ops!",
+      text: "Parece que é necessário fazer login para acessar esta seção. Não se preocupe, estamos aqui para ajudar! Entre na sua conta para desfrutar de todo o conteúdo e experiências incríveis que temos para oferecer.",
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: "Entendi, vou fazer o login!",
+      cancelButtonText: "Agora não, obrigado.",
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Concluido!",
+          text: "Redirecionando para a página de login!",
+          icon: "success",
+        }).then(() => (window.location = "/system/signin"));
+      } else {
+        Swal.fire("Entendido!", "Sem problemas, estamos por aqui se precisar!", "info").then(
+          () => (window.location = "/")
+        );
+      }
+    });
+  }
+};
+
 export const AuthGoogleProvider = ({ children }) => {
   const auth = getAuth(app);
   const [user, setUser] = useState(null);
+  const actionCodeSettings = {
+    url: "https://sesc.netlify.app/system/signin",
+    handleCodeInApp: true,
+  };
+
+  const signInEmail = (email) => {
+    sendSignInLinkToEmail(auth, email, actionCodeSettings)
+      .then(() => {
+        sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(email));
+        Swal.fire({
+          title: "Concluído!",
+          text: `Agora você tem acesso ao site.`,
+          icon: "success",
+          timer: 6000,
+          timerProgressBar: true,
+          showConfirmButton: true,
+        }).then(() => {
+          document.location = "/";
+        });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        Swal.fire("Ops!", `${errorMessage} - (${errorCode})`, "error");
+      });
+  };
 
   const signInGoogle = () => {
-    signInWithPopup(auth, provider)
+    signInWithRedirect(auth, provider)
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
@@ -53,11 +116,18 @@ export const AuthGoogleProvider = ({ children }) => {
       })
       .catch((error) => {
         console.log("Erro ao desconectar o usuário: ", error);
+        Swal.fire(
+          "Ops!",
+          "Problemas ao desconectar o usuário, tente novamente mais tarde",
+          "warning"
+        );
       });
   };
 
   return (
-    <AuthGoogleContext.Provider value={{ signInGoogle, signed: !!user, signOutGoogle }}>
+    <AuthGoogleContext.Provider
+      value={{ signInGoogle, signed: !!user, signOutGoogle, signInEmail }}
+    >
       {children}
     </AuthGoogleContext.Provider>
   );
