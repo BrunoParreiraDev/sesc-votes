@@ -21,6 +21,7 @@ function Dashboard() {
         let allResults = {};
 
         for (const classInput of classes) {
+          console.log("class input:", classInput);
           const classesDocRef = doc(db, "classes", classInput);
           const classesDoc = await getDoc(classesDocRef);
 
