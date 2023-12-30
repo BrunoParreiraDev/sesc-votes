@@ -23,8 +23,8 @@ function Results() {
               p={10}
               mb={10}
             >
-              <MKTypography color="dark" variant="h1" my={3}>
-                Resultados
+              <MKTypography color="dark" variant="h2" mb={5}>
+                Resultado das Eleições
               </MKTypography>
               <Grid item xs={12}>
                 <MKBox>
