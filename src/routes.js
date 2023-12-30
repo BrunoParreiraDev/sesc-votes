@@ -59,39 +59,6 @@ export const routes = [
           },
         ],
       },
-    ],
-  },
-  {
-    name: "Sistema",
-    icon: <Icon>storage</Icon>,
-    columns: 1,
-    rowsPerColumn: 2,
-    collapse: [
-      {
-        name: "Votar",
-        collapse: [
-          {
-            name: "Votar",
-            route: "/system/vote",
-            component: <VotePage />,
-          },
-          {
-            name: "Registrar candidato",
-            route: "/system/register",
-            component: <RegisterPage />,
-          },
-          {
-            name: "Resultados",
-            route: "/system/results",
-            component: <ResultsPage />,
-          },
-          {
-            name: "Gráficos",
-            route: "/system/charts",
-            component: <ChartsPage />,
-          },
-        ],
-      },
       {
         name: "Perfil",
         collapse: [
@@ -103,5 +70,51 @@ export const routes = [
         ],
       },
     ],
+  },
+  {
+    name: "Sistema",
+    icon: <Icon>storage</Icon>,
+    columns: 1,
+    rowsPerColumn: 2,
+    collapse: user
+      ? [
+          {
+            name: "Votar",
+            collapse: [
+              {
+                name: "Votar",
+                route: "/system/vote",
+                component: <VotePage />,
+              },
+              {
+                name: "Registrar candidato",
+                route: "/system/register",
+                component: <RegisterPage />,
+              },
+              {
+                name: "Resultados",
+                route: "/system/results",
+                component: <ResultsPage />,
+              },
+              {
+                name: "Gráficos",
+                route: "/system/charts",
+                component: <ChartsPage />,
+              },
+            ],
+          },
+        ]
+      : [
+          {
+            name: "Sem Permissão",
+            collapse: [
+              {
+                name: "login",
+                route: "/system/signin",
+                component: <SignInPage />,
+              },
+            ],
+          },
+        ],
   },
 ];

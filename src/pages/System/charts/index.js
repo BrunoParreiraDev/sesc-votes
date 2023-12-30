@@ -1,43 +1,45 @@
-/*
-=========================================================
-* Material Kit 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-kit-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
+import React from "react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-
-// Material Kit 2 React components
 import MKBox from "components/MKBox";
-
 import CenteredFooter from "layouts/utils/Footers/CenteredFooter";
+import MKTypography from "components/MKTypography";
+import Dashboard from "./sections/Dashboard";
 
 function Charts() {
   return (
     <>
-      <Card p={30}>
-        <Container>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={4}></Grid>
-            <Grid item xs={12} lg={4}></Grid>
-            <Grid item xs={12} lg={4}></Grid>
+      <Container>
+        <Grid container justifyContent="center" pt={13}>
+          <Grid item xs={12}>
+            <MKBox
+              sx={{
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                padding: "20px",
+                textAlign: "center",
+              }}
+              variant="gradient"
+              borderRadius="10px"
+              p={10}
+              mb={10}
+            >
+              <MKTypography color="dark" variant="h2" mb={5}>
+                Graficos Demonstrativos
+              </MKTypography>
+              <Grid item xs={12}>
+                <MKBox>
+                  <Dashboard />
+                </MKBox>
+              </Grid>
+            </MKBox>
           </Grid>
+        </Grid>
+        <Container>
+          <MKBox pt={6} px={1} mt={6}>
+            <CenteredFooter />
+          </MKBox>
         </Container>
-      </Card>
-      <MKBox pt={6} px={1} mt={6}>
-        <CenteredFooter />
-      </MKBox>
+      </Container>
     </>
   );
 }
