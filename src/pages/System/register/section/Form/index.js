@@ -25,27 +25,27 @@ function Form({ onSend }) {
 
   useEffect(() => {
     const fetchClassInfo = async () => {
-      if (formData) {
-        const classesDocRef = doc(db, "classes", formData);
+      if (formData.class) {
+        const classesDocRef = doc(db, "classes", formData.class);
         const classesDoc = await getDoc(classesDocRef);
 
         if (classesDoc.exists()) {
           const finished = classesDoc.data().finished;
           if (finished) {
-            Swal.fire("Oops!", `Parece que a eleição do ${formData} já foi finalizada.`);
-            setFormData({
-              name: "",
-              slogan: "",
-              class: "",
-              image: "",
-            });
+            Swal.fire(
+              "Oops!",
+              `Parece que a eleição da turma ${formData.class} já foi finalizada.`
+            );
+            setFormData((prevData) => ({ ...prevData, class: "" }));
           }
+        } else {
+          console.warn("No such document!");
         }
       }
     };
 
     fetchClassInfo();
-  }, [formData, db]);
+  }, [formData.class, db]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
