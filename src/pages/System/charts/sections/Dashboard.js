@@ -6,7 +6,7 @@ import DefaultCounterCard from "layouts/utils/Cards/CounterCards/DefaultCounterC
 import domtoimage from "dom-to-image";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { MKLineChart } from "../components/MKLineChart";
-import Swal from "sweatalert2";
+import Swal from "sweetalert2";
 
 import { app } from "services/FirebaseConfig";
 

@@ -26,6 +26,10 @@ import ResultsPage from "layouts/pages/system/results";
 import ChartsPage from "layouts/pages/system/charts";
 
 const user = JSON.parse(sessionStorage.getItem("@AuthFirebase:user"));
+console.table(user);
+
+const allowedUsers = JSON.parse(process.env.REACT_APP_ADMINS_UID || "[]");
+console.table(allowedUsers);
 
 export const routes = [
   {
@@ -76,45 +80,52 @@ export const routes = [
     icon: <Icon>storage</Icon>,
     columns: 1,
     rowsPerColumn: 2,
-    collapse: user
-      ? [
-          {
-            name: "Votar",
-            collapse: [
-              {
-                name: "Votar",
-                route: "/system/vote",
-                component: <VotePage />,
-              },
-              {
-                name: "Registrar candidato",
-                route: "/system/register",
-                component: <RegisterPage />,
-              },
-              {
-                name: "Resultados",
-                route: "/system/results",
-                component: <ResultsPage />,
-              },
-              {
-                name: "Gráficos",
-                route: "/system/charts",
-                component: <ChartsPage />,
-              },
-            ],
-          },
-        ]
-      : [
-          {
-            name: "Sem Permissão",
-            collapse: [
-              {
-                name: "login",
-                route: "/system/signin",
-                component: <SignInPage />,
-              },
-            ],
-          },
-        ],
+    collapse:
+      user && allowedUsers.includes(user.uid)
+        ? [
+            {
+              name: "Votar",
+              collapse: [
+                {
+                  name: "Votar",
+                  route: "/system/vote",
+                  component: <VotePage />,
+                },
+                {
+                  name: "Registrar candidato",
+                  route: "/system/register",
+                  component: <RegisterPage />,
+                },
+                {
+                  name: "Resultados",
+                  route: "/system/results",
+                  component: <ResultsPage />,
+                },
+                {
+                  name: "Gráficos",
+                  route: "/system/charts",
+                  component: <ChartsPage />,
+                },
+              ],
+            },
+          ]
+        : [
+            {
+              name: "Sem Permissão",
+              collapse: [
+                user
+                  ? {
+                      name: "sair",
+                      route: "/system/signout",
+                      component: <SignOutPage />,
+                    }
+                  : {
+                      name: "entrar",
+                      route: "/system/signin",
+                      component: <SignInPage />,
+                    },
+              ],
+            },
+          ],
   },
 ];
