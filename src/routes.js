@@ -1,14 +1,9 @@
 /**
-=========================================================
-* Material Kit 2 React - v2.1.0
-=========================================================
-* Product Page: https://www.creative-tim.com/product/material-kit-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-**/
+ * Material Kit 2 React - v2.1.0
+ * Product Page: https://www.creative-tim.com/product/material-kit-react
+ * Copyright 2023 Creative Tim (https://www.creative-tim.com)
+ * Coded by www.creative-tim.com
+ */
 
 // @mui material components
 import Icon from "@mui/material/Icon";
@@ -24,6 +19,7 @@ import SignOutPage from "layouts/pages/system/signout";
 import VotePage from "layouts/pages/system/vote";
 import ResultsPage from "layouts/pages/system/results";
 import ChartsPage from "layouts/pages/system/charts";
+import RegisterHomeworkPage from "layouts/pages/system/registerHomework";
 
 const user = JSON.parse(sessionStorage.getItem("@AuthFirebase:user"));
 
@@ -78,16 +74,21 @@ export const routes = [
     icon: <Icon>storage</Icon>,
     columns: 1,
     rowsPerColumn: 2,
-    collapse:
-      user && allowedUsers.includes(user.uid)
-        ? [
-            {
-              name: "Votar",
-              collapse: [
+    collapse: [
+      {
+        name: user && allowedUsers.includes(user.uid) ? "Ferramentas Admin" : "Sem Permissão",
+        collapse:
+          user && allowedUsers.includes(user.uid)
+            ? [
                 {
                   name: "Votar",
                   route: "/system/vote",
                   component: <VotePage />,
+                },
+                {
+                  name: "Registrar Atividade para Casa",
+                  route: "/system/register/homework",
+                  component: <RegisterHomeworkPage />,
                 },
                 {
                   name: "Registrar candidato",
@@ -104,13 +105,8 @@ export const routes = [
                   route: "/system/charts",
                   component: <ChartsPage />,
                 },
-              ],
-            },
-          ]
-        : [
-            {
-              name: "Sem Permissão",
-              collapse: [
+              ]
+            : [
                 user
                   ? {
                       name: "sair",
@@ -123,7 +119,7 @@ export const routes = [
                       component: <SignInPage />,
                     },
               ],
-            },
-          ],
+      },
+    ],
   },
 ];

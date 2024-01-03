@@ -1,4 +1,11 @@
-import { getAuth, GoogleAuthProvider, signOut, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signOut,
+  signInWithPopup,
+  signInWithRedirect,
+} from "firebase/auth";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { createContext } from "react";
 import { app } from "services/FirebaseConfig";
@@ -42,17 +49,29 @@ export const AuthToUse = ({ children }) => {
 
 export const AuthGoogleProvider = ({ children }) => {
   const auth = getAuth(app);
+  const db = getFirestore(app);
   const [user, setUser] = useState(null);
 
   const signInGoogle = () => {
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(async (result) => {
         const credential = GoogleAuthProvider.credential(result);
         const token = credential.accessToken;
         const user = result.user;
-        setUser(user);
-        sessionStorage.setItem("@AuthFirebase:token", token);
         sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(user));
+        sessionStorage.setItem("@AuthFirebase:token", token);
+        setUser(user);
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnapshot = await getDoc(userDocRef);
+
+        if (!userDocSnapshot.exists()) {
+          console.table(user);
+          await setDoc(userDocRef, {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+          });
+        }
         Swal.fire({
           title: "Concluído!",
           text: `Agora você tem acesso ao site.`,
@@ -64,13 +83,45 @@ export const AuthGoogleProvider = ({ children }) => {
           document.location = "/";
         });
       })
-      .catch((error) => {
-        console.log("Erro: ", error);
-        Swal.fire(
-          "Ops, algo deu errado!",
-          `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
-          "warning"
-        );
+      .catch(() => {
+        signInWithRedirect(auth, provider)
+          .then(async (result) => {
+            const credential = GoogleAuthProvider.credential(result);
+            const token = credential.accessToken;
+            const user = result.user;
+            sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(user));
+            sessionStorage.setItem("@AuthFirebase:token", token);
+            setUser(user);
+            const userDocRef = doc(db, "users", user.uid);
+            const userDocSnapshot = await getDoc(userDocRef);
+
+            if (!userDocSnapshot.exists()) {
+              console.table(user);
+              await setDoc(userDocRef, {
+                uid: user.uid,
+                email: user.email,
+                displayName: user.displayName,
+              });
+            }
+            Swal.fire({
+              title: "Concluído!",
+              text: `Agora você tem acesso ao site.`,
+              icon: "success",
+              timer: 6000,
+              timerProgressBar: true,
+              showConfirmButton: true,
+            }).then(() => {
+              document.location = "/";
+            });
+          })
+          .catch((error) => {
+            console.log("Erro: ", error);
+            Swal.fire(
+              "Ops, algo deu errado!",
+              `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
+              "warning"
+            );
+          });
       });
   };
 
