@@ -23,7 +23,7 @@ export const AuthEmailProvider = ({ children }) => {
   const sendEmailSignInLink = (email) => {
     return sendSignInLinkToEmail(auth, email, actionCodeSettings)
       .then(() => {
-        sessionStorage.setItem("emailForSignIn", email);
+        localStorage.setItem("emailForSignIn", email);
         Swal.fire({
           title: "Enviado!",
           text: `Por favor, verifique seu e-mail e acesse o site do seu provedor de e-mail. Procure pela mensagem que enviamos e clique no link fornecido para verificar seu e-mail e concluir o processo de login.`,
@@ -44,7 +44,7 @@ export const AuthEmailProvider = ({ children }) => {
 
   const completeEmailSignIn = async () => {
     if (isSignInWithEmailLink(auth, window.location.href)) {
-      let email = sessionStorage.getItem("emailForSignIn");
+      let email = localStorage.getItem("emailForSignIn");
       if (!email) {
         const { value: inputEmail } = await Swal.fire({
           title: "Verificação de E-mail",
@@ -59,7 +59,7 @@ export const AuthEmailProvider = ({ children }) => {
 
         if (inputEmail) {
           email = inputEmail;
-          sessionStorage.setItem("emailForSignIn", email);
+          localStorage.setItem("emailForSignIn", email);
         } else {
           return;
         }
