@@ -16,7 +16,7 @@ export const AuthEmailProvider = ({ children }) => {
   const auth = getAuth(app);
 
   const actionCodeSettings = {
-    url: "https://sesc.netlify.app/system/signin",
+    url: "https://sesc-votes.firebaseapp.com/__/auth/action",
     handleCodeInApp: true,
   };
 
