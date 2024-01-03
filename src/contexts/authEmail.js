@@ -21,12 +21,12 @@ export const AuthEmailProvider = ({ children }) => {
   };
 
   const sendEmailSignInLink = (email) => {
+    localStorage.setItem("emailForSignIn", email); // Salvar o email antes de enviar o link
     return sendSignInLinkToEmail(auth, email, actionCodeSettings)
       .then(() => {
-        localStorage.setItem("emailForSignIn", email);
         Swal.fire({
           title: "Enviado!",
-          text: `Por favor, verifique seu e-mail e acesse o site do seu provedor de e-mail. Procure pela mensagem que enviamos e clique no link fornecido para verificar seu e-mail e concluir o processo de login.`,
+          text: `Por favor, verifique seu e-mail e acesse o site do seu provedor de e-mail. Procure pela mensagem que enviamos e clique no link fornecido para verificar seu e-mail.`,
           icon: "success",
           timer: 6000,
           timerProgressBar: true,
@@ -34,6 +34,7 @@ export const AuthEmailProvider = ({ children }) => {
         });
       })
       .catch((error) => {
+        localStorage.removeItem("emailForSignIn"); // Remover o email se ocorrer um erro no envio
         Swal.fire(
           "Ops, algo deu errado!",
           `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
@@ -59,7 +60,7 @@ export const AuthEmailProvider = ({ children }) => {
 
         if (inputEmail) {
           email = inputEmail;
-          localStorage.setItem("emailForSignIn", email);
+          localStorage.setItem("emailForSignIn", email); // Salvar o email no localStorage
         } else {
           return;
         }
@@ -83,7 +84,7 @@ export const AuthEmailProvider = ({ children }) => {
           console.error("Erro ao fazer login com e-mail link:", error);
           Swal.fire(
             "Ops, algo deu errado!",
-            `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
+            `Parece que o email fornecido não é válido. Por favor, verifique se o email está correto e tente novamente.`,
             "warning"
           );
         });
