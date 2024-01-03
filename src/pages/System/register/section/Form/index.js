@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
 import Grid from "@mui/material/Grid";
@@ -10,6 +10,7 @@ import { app } from "services/FirebaseConfig";
 import { getFirestore, collection, doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
 
 function Form({ onSend }) {
+  const db = getFirestore(app);
   const [formData, setFormData] = useState({
     name: "",
     slogan: "",
@@ -21,6 +22,25 @@ function Form({ onSend }) {
     const { id, value } = event.target;
     setFormData({ ...formData, [id]: value });
   };
+
+  useEffect(() => {
+    const fetchClassInfo = async () => {
+      if (formData) {
+        const classesDocRef = doc(db, "classes", formData);
+        const classesDoc = await getDoc(classesDocRef);
+
+        if (classesDoc.exists()) {
+          const finished = classesDoc.data().finished;
+          if (finished) {
+            Swal.fire("Oops!", `Parece que a eleição do ${formData} já foi finalizada.`);
+            setFormData("");
+          }
+        }
+      }
+    };
+
+    fetchClassInfo();
+  }, [formData, db]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -36,7 +56,6 @@ function Form({ onSend }) {
   };
 
   async function getNextId() {
-    const db = getFirestore(app);
     const counterDocRef = doc(collection(db, "candidates"), "counter");
 
     try {
@@ -77,11 +96,11 @@ function Form({ onSend }) {
       });
     } catch (error) {
       console.error("Erro ao cadastrar candidato:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Erro!",
-        text: "Ocorreu um erro ao cadastrar o candidato.",
-      });
+      Swal.fire(
+        "Ops, algo deu errado!",
+        `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
+        "warning"
+      );
     }
   };
 
