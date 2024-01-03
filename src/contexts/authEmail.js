@@ -21,7 +21,7 @@ export const AuthEmailProvider = ({ children }) => {
   };
 
   const sendEmailSignInLink = (email) => {
-    localStorage.setItem("emailForSignIn", email); // Salvar o email antes de enviar o link
+    localStorage.setItem("emailForSignIn", email);
     return sendSignInLinkToEmail(auth, email, actionCodeSettings)
       .then(() => {
         Swal.fire({
@@ -34,7 +34,7 @@ export const AuthEmailProvider = ({ children }) => {
         });
       })
       .catch((error) => {
-        localStorage.removeItem("emailForSignIn"); // Remover o email se ocorrer um erro no envio
+        localStorage.removeItem("emailForSignIn");
         Swal.fire(
           "Ops, algo deu errado!",
           `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
@@ -46,7 +46,6 @@ export const AuthEmailProvider = ({ children }) => {
   const completeEmailSignIn = async () => {
     if (isSignInWithEmailLink(auth, window.location.href)) {
       let email = localStorage.getItem("emailForSignIn");
-      Swal.fire("email", email);
       if (!email) {
         const { value: inputEmail } = await Swal.fire({
           title: "Verificação de E-mail",
