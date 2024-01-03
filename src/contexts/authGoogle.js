@@ -71,40 +71,12 @@ export const AuthGoogleProvider = ({ children }) => {
           document.location = "/";
         });
       })
-      .catch(() => {
+      .catch((error) => {
         Swal.fire(
           "Ops, algo deu errado!",
-          `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. você será redirecionado para a página de login alternativa.`,
+          `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
           "warning"
-        ).then(() => {
-          signInWithRedirect(auth, provider)
-            .then(async (result) => {
-              const credential = GoogleAuthProvider.credential(result);
-              const token = credential.accessToken;
-              const user = result.user;
-              sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(user));
-              sessionStorage.setItem("@AuthFirebase:token", token);
-              setUser(user);
-              Swal.fire({
-                title: "Concluído!",
-                text: `Agora você tem acesso ao site.`,
-                icon: "success",
-                timer: 6000,
-                timerProgressBar: true,
-                showConfirmButton: true,
-              }).then(() => {
-                document.location = "/";
-              });
-            })
-            .catch((error) => {
-              console.log("Erro: ", error);
-              Swal.fire(
-                "Ops, algo deu errado!",
-                `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
-                "warning"
-              );
-            });
-        });
+        );
       });
   };
 
