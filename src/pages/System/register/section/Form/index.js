@@ -33,7 +33,12 @@ function Form({ onSend }) {
           const finished = classesDoc.data().finished;
           if (finished) {
             Swal.fire("Oops!", `Parece que a eleição do ${formData} já foi finalizada.`);
-            setFormData("");
+            setFormData({
+              name: "",
+              slogan: "",
+              class: "",
+              image: "",
+            });
           }
         }
       }
