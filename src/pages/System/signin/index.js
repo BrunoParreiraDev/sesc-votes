@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -36,11 +36,13 @@ import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
 import { AuthGoogleContext } from "contexts/authGoogle";
 import { AuthGithubContext } from "contexts/authGithub";
+import { AuthEmailContext } from "contexts/authEmail";
 
 function SignIn() {
   // Declarações de estados e contextos
-  const { signInGoogle, signInEmail } = useContext(AuthGoogleContext);
+  const { signInGoogle } = useContext(AuthGoogleContext);
   const { signInGithub } = useContext(AuthGithubContext);
+  const { sendEmailSignInLink, completeEmailSignIn } = useContext(AuthEmailContext);
   const [rememberMe, setRememberMe] = useState(false);
   const [email, setEmail] = useState("");
 
@@ -50,10 +52,13 @@ function SignIn() {
     setEmail(event.target.value.trim());
   };
   const handleFormSubmit = () => {
-    signInEmail(email);
+    sendEmailSignInLink(email);
   };
 
-  // Renderização do componente
+  useEffect(() => {
+    completeEmailSignIn();
+  }, []);
+
   return (
     <>
       <MKBox

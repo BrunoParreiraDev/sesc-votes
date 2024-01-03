@@ -23,6 +23,7 @@ import Presentation from "layouts/pages/presentation";
 import { routes } from "routes";
 import { AuthGoogleProvider } from "contexts/authGoogle";
 import { AuthGithubProvider } from "contexts/authGithub";
+import { AuthEmailProvider } from "contexts/authEmail";
 
 export default function App() {
   const { pathname } = useLocation();
@@ -47,36 +48,38 @@ export default function App() {
     });
 
   return (
-    <AuthGithubProvider>
-      <AuthGoogleProvider>
-        <ThemeProvider theme={theme}>
-          <DefaultNavbar
-            routes={routes}
-            action={
-              user
-                ? {
-                    type: "internal",
-                    route: "system/signout",
-                    label: "Sair",
-                    color: "error",
-                  }
-                : {
-                    type: "internal",
-                    route: "system/signin",
-                    label: "Entrar",
-                    color: "info",
-                  }
-            }
-            dark
-          />
-          <CssBaseline />
-          <Routes>
-            {getRoutes(routes)}
-            <Route path="/presentation" element={<Presentation />} />
-            <Route path="*" element={<Navigate to="/presentation" />} />
-          </Routes>
-        </ThemeProvider>
-      </AuthGoogleProvider>
-    </AuthGithubProvider>
+    <AuthEmailProvider>
+      <AuthGithubProvider>
+        <AuthGoogleProvider>
+          <ThemeProvider theme={theme}>
+            <DefaultNavbar
+              routes={routes}
+              action={
+                user
+                  ? {
+                      type: "internal",
+                      route: "system/signout",
+                      label: "Sair",
+                      color: "error",
+                    }
+                  : {
+                      type: "internal",
+                      route: "system/signin",
+                      label: "Entrar",
+                      color: "info",
+                    }
+              }
+              dark
+            />
+            <CssBaseline />
+            <Routes>
+              {getRoutes(routes)}
+              <Route path="/presentation" element={<Presentation />} />
+              <Route path="*" element={<Navigate to="/presentation" />} />
+            </Routes>
+          </ThemeProvider>
+        </AuthGoogleProvider>
+      </AuthGithubProvider>
+    </AuthEmailProvider>
   );
 }

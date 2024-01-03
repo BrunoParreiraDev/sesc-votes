@@ -1,10 +1,4 @@
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signOut,
-  signInWithPopup,
-  signInWithRedirect,
-} from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signOut, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
 import { createContext } from "react";
 import { app } from "services/FirebaseConfig";
