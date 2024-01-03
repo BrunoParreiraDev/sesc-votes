@@ -28,7 +28,6 @@ import ChartsPage from "layouts/pages/system/charts";
 const user = JSON.parse(sessionStorage.getItem("@AuthFirebase:user"));
 
 const allowedUsers = JSON.parse(process.env.REACT_APP_ADMINS_UID || "[]");
-console.table(allowedUsers);
 
 export const routes = [
   {
