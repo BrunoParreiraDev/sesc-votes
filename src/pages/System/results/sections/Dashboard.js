@@ -7,7 +7,8 @@ import MKTypography from "components/MKTypography";
 import MKButton from "components/MKButton";
 import MKBox from "components/MKBox";
 import DefaultCounterCard from "layouts/utils/Cards/CounterCards/DefaultCounterCard";
-import { toPng } from "html-to-image";
+import domtoimage from "dom-to-image";
+import Swal from "sweetalert2";
 
 import { app } from "services/FirebaseConfig";
 
@@ -42,7 +43,6 @@ function Dashboard() {
 
                 if (winnerDocSnapshot.exists()) {
                   winner = winnerDocSnapshot.data();
-                  console.log("Dados do Vencedor:", winner);
                 } else {
                   console.log("Nenhum documento encontrado para o ID do Vencedor:", data.id_winner);
                 }
@@ -55,7 +55,6 @@ function Dashboard() {
 
                 if (runnerUpDocSnapshot.exists()) {
                   runnerUp = runnerUpDocSnapshot.data();
-                  console.log("Dados do Vice-Vencedor:", runnerUp);
                 } else {
                   console.log(
                     "Nenhum documento encontrado para o ID do Vice-Vencedor:",
@@ -63,7 +62,7 @@ function Dashboard() {
                   );
                 }
               } catch (error) {
-                console.error("Erro ao buscar documentos2:", error);
+                console.error("Erro ao buscar documentos:", error);
               }
 
               resultData = {
@@ -96,15 +95,22 @@ function Dashboard() {
 
   const downloadAsImage = () => {
     if (gridRef && gridRef.current) {
-      toPng(gridRef.current)
+      const dateTime = new Date().toLocaleString().replace(/:|\//g, "-");
+      domtoimage
+        .toPng(gridRef.current)
         .then((dataUrl) => {
           const link = document.createElement("a");
-          link.download = "resultado.png";
+          link.download = `resultados-eleição-sesc-votes-${dateTime}.png`;
           link.href = dataUrl;
           link.click();
         })
         .catch((error) => {
           console.error("Erro ao gerar a imagem:", error);
+          Swal.fire(
+            "Ops, algo deu errado!",
+            `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
+            "warning"
+          );
         });
     }
   };
@@ -115,102 +121,112 @@ function Dashboard() {
         count={100}
         time={20}
         suffix="%"
-        title="Carregando..."
-        description="candidatos"
+        title="Gerando..."
+        description="Imagens e Cards Personalizados"
       />
     );
   }
-  console.table(results);
   return (
     <>
       <MKButton color="info" variant="gradient" onClick={downloadAsImage} fullWidth>
         Baixar Resultado como Imagem
       </MKButton>
-      <Grid container spacing={3} mt={1} ref={gridRef}>
-        {Object.entries(results).map(([classInput, result]) => (
-          <Grid key={classInput} item xs={12}>
-            <Grid container spacing={2}>
-              {/* Card do vencedor */}
-              <Grid item xs={12} lg={6}>
-                <MKBox
-                  variant="gradient"
-                  borderRadius="10px"
-                  bgColor="dark"
-                  p={10}
-                  sx={{
-                    margin: "0 auto 20px",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Container>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} lg={9}>
-                        <MKTypography color="light" variant="h4">
-                          Líder: {classInput}
-                        </MKTypography>
-                        <MKTypography color="light" variant="subtitle1">
-                          Nome: {result.winner ? result.winner.name || "N/A" : "N/A"}
-                        </MKTypography>
-                        <MKTypography color="light" variant="subtitle1">
-                          Votos: {result.winner ? result.winner.votes || "N/A" : "N/A"}
-                        </MKTypography>
+      <div ref={gridRef}>
+        <Grid container spacing={3} mt={1}>
+          {Object.entries(results).map(([classInput, result]) => (
+            <Grid key={classInput} item xs={12}>
+              <Grid container spacing={2}>
+                {/* Card do vencedor */}
+                <Grid item xs={12} lg={6}>
+                  <MKBox
+                    variant="gradient"
+                    borderRadius="10px"
+                    bgColor="dark"
+                    p={10}
+                    sx={{
+                      margin: "0 auto 20px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Container>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} lg={9}>
+                          <MKTypography color="light" variant="h4">
+                            Líder: {classInput}
+                          </MKTypography>
+                          <MKTypography color="light" variant="subtitle1">
+                            Nome: {result.winner ? result.winner.name || "N/A" : "N/A"}
+                          </MKTypography>
+                          <MKTypography color="light" variant="subtitle1">
+                            Votos: {result.winner ? result.winner.votes || "N/A" : "N/A"}
+                          </MKTypography>
+                        </Grid>
+                        <Grid item xs={12} lg={3}>
+                          <Avatar
+                            id="preview-avatar"
+                            sx={{
+                              width: 120,
+                              height: 120,
+                              margin: "0 auto 20px",
+                              cursor: "pointer",
+                            }}
+                            alt="Candidate Photo"
+                            src={result.winner ? result.winner.image || "" : ""}
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} lg={3}>
-                        <Avatar
-                          id="preview-avatar"
-                          sx={{ width: 120, height: 120, margin: "0 auto 20px", cursor: "pointer" }}
-                          alt="Candidate Photo"
-                          src={result.winner ? result.winner.image || "" : ""}
-                        />
+                    </Container>
+                  </MKBox>
+                </Grid>
+                {/* Card do vice-líder */}
+                <Grid item xs={12} lg={6}>
+                  <MKBox
+                    variant="gradient"
+                    borderRadius="10px"
+                    bgColor="secondary"
+                    p={10}
+                    sx={{
+                      margin: "0 auto 20px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Container>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} lg={9}>
+                          <MKTypography color="light" variant="h4">
+                            Vice-líder: {classInput}
+                          </MKTypography>
+                          <MKTypography color="light" variant="subtitle1">
+                            Nome: {result.runnerUp ? result.runnerUp.name || "N/A" : "N/A"}
+                          </MKTypography>
+                          <MKTypography color="light" variant="subtitle1">
+                            Votos: {result.runnerUp ? result.runnerUp.votes || "N/A" : "N/A"}
+                          </MKTypography>
+                        </Grid>
+                        <Grid item xs={12} lg={3}>
+                          <Avatar
+                            id="preview-avatar"
+                            sx={{
+                              width: 120,
+                              height: 120,
+                              margin: "0 auto 20px",
+                              cursor: "pointer",
+                            }}
+                            alt="Candidate Photo"
+                            src={result.runnerUp ? result.runnerUp.image || "" : ""}
+                          />
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Container>
-                </MKBox>
-              </Grid>
-
-              {/* Card do vice-líder */}
-              <Grid item xs={12} lg={6}>
-                <MKBox
-                  variant="gradient"
-                  borderRadius="10px"
-                  bgColor="secondary"
-                  p={10}
-                  sx={{
-                    margin: "0 auto 20px",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Container>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} lg={9}>
-                        <MKTypography color="light" variant="h4">
-                          Vice-líder: {classInput}
-                        </MKTypography>
-                        <MKTypography color="light" variant="subtitle1">
-                          Nome: {result.runnerUp ? result.runnerUp.name || "N/A" : "N/A"}
-                        </MKTypography>
-                        <MKTypography color="light" variant="subtitle1">
-                          Votos: {result.runnerUp ? result.runnerUp.votes || "N/A" : "N/A"}
-                        </MKTypography>
-                      </Grid>
-                      <Grid item xs={12} lg={3}>
-                        <Avatar
-                          id="preview-avatar"
-                          sx={{ width: 120, height: 120, margin: "0 auto 20px", cursor: "pointer" }}
-                          alt="Candidate Photo"
-                          src={result.runnerUp ? result.runnerUp.image || "" : ""}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Container>
-                </MKBox>
+                    </Container>
+                  </MKBox>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        ))}
-      </Grid>
+          ))}
+        </Grid>
+      </div>
     </>
   );
 }

@@ -3,9 +3,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { Grid, Container } from "@mui/material";
 import MKButton from "components/MKButton";
 import DefaultCounterCard from "layouts/utils/Cards/CounterCards/DefaultCounterCard";
-import { toPng } from "html-to-image";
+import domtoimage from "dom-to-image";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { MKLineChart } from "../components/MKLineChart";
+import Swal from "sweatalert2";
 
 import { app } from "services/FirebaseConfig";
 
@@ -92,15 +93,22 @@ function Dashboard() {
 
   const downloadAsImage = () => {
     if (gridRef && gridRef.current) {
-      toPng(gridRef.current)
+      const dateTime = new Date().toLocaleString().replace(/:|\//g, "-");
+      domtoimage
+        .toPng(gridRef.current)
         .then((dataUrl) => {
           const link = document.createElement("a");
-          link.download = "grafico.png";
+          link.download = `graficos-sesc-votes-${dateTime}.png`;
           link.href = dataUrl;
           link.click();
         })
         .catch((error) => {
           console.error("Erro ao gerar a imagem:", error);
+          Swal.fire(
+            "Ops, algo deu errado!",
+            `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
+            "warning"
+          );
         });
     }
   };
@@ -126,13 +134,15 @@ function Dashboard() {
       <MKButton color="info" variant="gradient" onClick={downloadAsImage} fullWidth>
         Baixar Resultado como Imagem
       </MKButton>
-      <Grid container spacing={3} mt={1} ref={gridRef}>
-        {Object.entries(results).map(([classInput, result]) => (
-          <Grid key={classInput} item xs={12} lg={6}>
-            <MKLineChart data={result} />
-          </Grid>
-        ))}
-      </Grid>
+      <div ref={gridRef}>
+        <Grid container spacing={3} mt={1} ref={gridRef}>
+          {Object.entries(results).map(([classInput, result]) => (
+            <Grid key={classInput} item xs={12} lg={6}>
+              <MKLineChart data={result} />
+            </Grid>
+          ))}
+        </Grid>
+      </div>
     </>
   );
 }
