@@ -46,6 +46,7 @@ export const AuthEmailProvider = ({ children }) => {
   const completeEmailSignIn = async () => {
     if (isSignInWithEmailLink(auth, window.location.href)) {
       let email = localStorage.getItem("emailForSignIn");
+      Swal.fire("email", email);
       if (!email) {
         const { value: inputEmail } = await Swal.fire({
           title: "Verificação de E-mail",
@@ -60,7 +61,7 @@ export const AuthEmailProvider = ({ children }) => {
 
         if (inputEmail) {
           email = inputEmail;
-          localStorage.setItem("emailForSignIn", email); // Salvar o email no localStorage
+          localStorage.setItem("emailForSignIn", email);
         } else {
           return;
         }
