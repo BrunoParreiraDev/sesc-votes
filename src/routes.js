@@ -26,7 +26,6 @@ import ResultsPage from "layouts/pages/system/results";
 import ChartsPage from "layouts/pages/system/charts";
 
 const user = JSON.parse(sessionStorage.getItem("@AuthFirebase:user"));
-console.table(user);
 
 const allowedUsers = JSON.parse(process.env.REACT_APP_ADMINS_UID || "[]");
 console.table(allowedUsers);
