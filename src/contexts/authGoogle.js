@@ -65,10 +65,10 @@ export const AuthGoogleProvider = ({ children }) => {
           document.location = "/";
         });
       })
-      .catch((error) => {
+      .catch(() => {
         Swal.fire(
           "Ops, algo deu errado!",
-          `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
+          `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. tente novamente mais tarde`,
           "warning"
         );
       });
