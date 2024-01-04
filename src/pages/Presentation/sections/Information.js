@@ -40,18 +40,12 @@ function Information() {
               <RotatingCardFront
                 image={bgFront}
                 icon="touch_app"
-                title={
-                  <>
-                    Sinta o Poder dos
-                    <br />
-                    SESC Votes
-                  </>
-                }
+                title="Novidades"
                 description="Com esta plataforma totalmente gratuita, você pode realizar coisas absolutamente inimagináveis."
               />
               <RotatingCardBack
                 image={bgBack}
-                title="Vindo em Breve"
+                title="Nova Seção!"
                 description="Planejamos criar uma nova seção na qual você terá acesso aos horários das aulas, os tópicos abordados em cada uma delas, e também poderá visualizar as tarefas de casa."
                 action={{
                   type: "internal",

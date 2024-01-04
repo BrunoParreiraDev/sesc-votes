@@ -82,6 +82,7 @@ function CenteredFooter({ company, links, socials, light }) {
         </Grid>
         <Grid item xs={12} lg={8} sx={{ textAlign: "center" }}>
           <MKTypography variant="body2" color={light ? "white" : "secondary"}>
+            Copyright &copy; {year}. Todos os Direitos Reservados.{" "}
             <MKTypography
               component={Link}
               href={href}
@@ -91,8 +92,7 @@ function CenteredFooter({ company, links, socials, light }) {
               color={light ? "white" : "secondary"}
             >
               BrunoSoft.
-            </MKTypography>{" "}
-            Todos os Direitos Reservados. Copyright &copy; 2022-{year}
+            </MKTypography>
           </MKTypography>
         </Grid>
       </Grid>
