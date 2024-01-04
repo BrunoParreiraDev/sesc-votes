@@ -49,7 +49,7 @@ function BuiltByDevelopers() {
             Construido pela equipe:
           </MKTypography>
           <MKTypography variant="h1" color="white" mb={1}>
-            BrunoSoft Inc.
+            BrunoSoft, PA
           </MKTypography>
           <MKTypography variant="body1" color="white" opacity={0.8} mb={2}>
             Nosso site oferece uma experiência única ao proporcionar acesso simplificado a
