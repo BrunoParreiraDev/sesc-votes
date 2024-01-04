@@ -13,7 +13,7 @@ import { getFirestore, updateDoc, doc, getDoc, getDocs, collection } from "fireb
 import { app } from "services/FirebaseConfig";
 
 function Vote() {
-  const [input, setInput] = useState("7 (A)");
+  const [input, setInput] = useState("");
   const db = getFirestore(app);
 
   useEffect(() => {
