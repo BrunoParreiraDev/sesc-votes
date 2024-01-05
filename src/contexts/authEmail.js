@@ -1,6 +1,7 @@
 import {
   getAuth,
   sendSignInLinkToEmail,
+  GoogleAuthProvider,
   isSignInWithEmailLink,
   signInWithEmailLink,
 } from "firebase/auth";
@@ -68,13 +69,16 @@ export const AuthEmailProvider = ({ children }) => {
 
       return signInWithEmailLink(auth, email, window.location.href)
         .then((result) => {
+          const credential = GoogleAuthProvider.credential(result);
+          const token = credential.accessToken;
+          const user = result.user;
+          sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(user));
+          sessionStorage.setItem("@AuthFirebase:token", token);
           setUser(result.user);
           Swal.fire({
             title: "Concluído!",
             text: "Agora você tem acesso ao site.",
             icon: "success",
-            timer: 6000,
-            timerProgressBar: true,
             showConfirmButton: true,
           }).then(() => {
             document.location = "/";
