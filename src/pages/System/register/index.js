@@ -15,6 +15,7 @@ function Register() {
       const docRef = doc(db, "candidates", String(data.id));
       await setDoc(docRef, data);
       console.log("Document written with ID: ", docRef.id);
+      Swal.fire("Concluido!", `Candidato(a) ${data.name} Cadastrado com Sucesso!`, "warning");
     } catch (error) {
       console.error("Error adding document: ", error);
       Swal.fire(
@@ -32,7 +33,7 @@ function Register() {
           p: 2,
           mx: { xs: 2, lg: 3 },
           mt: 8,
-          pt: 8,
+          pt: 13,
           mb: 4,
           backgroundColor: ({ palette: { white }, functions: { rgba } }) => rgba(white.main, 0.8),
           backdropFilter: "saturate(200%) blur(30px)",

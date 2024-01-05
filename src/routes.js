@@ -19,6 +19,7 @@ import SignOutPage from "layouts/pages/system/signout";
 import VotePage from "layouts/pages/system/vote";
 import ResultsPage from "layouts/pages/system/results";
 import ChartsPage from "layouts/pages/system/charts";
+import DownloadPage from "layouts/pages/system/download";
 import RegisterHomeworkPage from "layouts/pages/system/registerHomework";
 
 const user = JSON.parse(sessionStorage.getItem("@AuthFirebase:user"));
@@ -104,6 +105,11 @@ export const routes = [
                   name: "Gráficos",
                   route: "/system/charts",
                   component: <ChartsPage />,
+                },
+                {
+                  name: "Instalar",
+                  route: "/system/download",
+                  component: <DownloadPage />,
                 },
               ]
             : [
