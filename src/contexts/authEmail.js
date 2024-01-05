@@ -78,6 +78,8 @@ export const AuthEmailProvider = ({ children }) => {
           Swal.fire({
             title: "Concluído!",
             text: "Agora você tem acesso ao site.",
+            timer: 3000,
+            timerProgressBar: true,
             icon: "success",
             showConfirmButton: true,
           }).then(() => {
