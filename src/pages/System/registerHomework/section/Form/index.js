@@ -154,6 +154,7 @@ function Form({ onSend }) {
                 id="description"
                 variant="outlined"
                 required
+                multiline={true}
                 value={formData.description}
                 onChange={handleInputChange}
               />

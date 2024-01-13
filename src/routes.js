@@ -21,6 +21,7 @@ import ResultsPage from "layouts/pages/system/results";
 import ChartsPage from "layouts/pages/system/charts";
 import DownloadPage from "layouts/pages/system/download";
 import RegisterHomeworkPage from "layouts/pages/system/registerHomework";
+import HomeworkPage from "layouts/pages/system/homework";
 
 const user = JSON.parse(sessionStorage.getItem("@AuthFirebase:user"));
 
@@ -77,7 +78,8 @@ export const routes = [
     rowsPerColumn: 2,
     collapse: [
       {
-        name: user && allowedUsers.includes(user.uid) ? "Ferramentas Admin" : "Sem Permissão",
+        name:
+          user && allowedUsers.includes(user.uid) ? "Ferramentas Admin" : "Ferramentas do Aluno",
         collapse:
           user && allowedUsers.includes(user.uid)
             ? [
@@ -111,20 +113,29 @@ export const routes = [
                   route: "/system/download",
                   component: <DownloadPage />,
                 },
+                {
+                  name: "Ver Tarefas de Casa",
+                  route: "/system/student/homework",
+                  component: <HomeworkPage />,
+                },
               ]
             : [
-                user
-                  ? {
-                      name: "sair",
-                      route: "/system/signout",
-                      component: <SignOutPage />,
-                    }
-                  : {
-                      name: "entrar",
-                      route: "/system/signin",
-                      component: <SignInPage />,
-                    },
+                {
+                  name: "Ver Tarefas de Casa",
+                  route: "/system/student/homework",
+                  component: <HomeworkPage />,
+                },
               ],
+      },
+      {
+        name: "Perfil",
+        collapse: [
+          {
+            name: user ? "Sair" : "Entrar",
+            route: user ? "/system/signout" : "/system/signin",
+            component: user ? <SignOutPage /> : <SignInPage />,
+          },
+        ],
       },
     ],
   },

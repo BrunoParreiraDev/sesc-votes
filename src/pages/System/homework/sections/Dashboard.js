@@ -1,119 +1,50 @@
-import React, { useState, useEffect, useRef } from "react";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
-import Avatar from "@mui/material/Avatar";
-import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
+import React, { useState, useEffect } from "react";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+import MKAlert from "components/MKAlert";
 import MKTypography from "components/MKTypography";
-import MKButton from "components/MKButton";
 import MKBox from "components/MKBox";
 import DefaultCounterCard from "layouts/utils/Cards/CounterCards/DefaultCounterCard";
-import domtoimage from "dom-to-image";
-import Swal from "sweetalert2";
+import { Container } from "@mui/material";
+import Grid from "@mui/material/Grid";
 
 import { app } from "services/FirebaseConfig";
 
 function Dashboard() {
-  const [results, setResults] = useState({});
+  const [homeworkActivities, setHomeworkActivities] = useState([]);
   const [loading, setLoading] = useState(true);
-  const gridRef = useRef(null);
 
   useEffect(() => {
-    const fetchResults = async () => {
+    const fetchHomeworkActivities = async () => {
       setLoading(true);
       try {
         const db = getFirestore(app);
-        const classes = ["7 (A)", "7 (B)", "8 (A)", "8 (B)", "9 (A)", "9 (B)"];
-        let allResults = {};
+        const homeworkActivitiesCollectionRef = collection(db, "homework");
+        const homeworkActivitiesSnapshot = await getDocs(homeworkActivitiesCollectionRef);
 
-        let winner;
-        let runnerUp;
-
-        for (const classInput of classes) {
-          const classesDocRef = doc(db, "classes", classInput);
-          const classesDoc = await getDoc(classesDocRef);
-
-          if (classesDoc.exists()) {
-            const data = classesDoc.data();
-            let resultData = { teacher: data.teacher, finished: data.finished };
-
-            if (data.finished) {
-              try {
-                const winnerDocRef = doc(db, "candidates", String(data.id_winner));
-                const winnerDocSnapshot = await getDoc(winnerDocRef);
-
-                if (winnerDocSnapshot.exists()) {
-                  winner = winnerDocSnapshot.data();
-                } else {
-                  console.log("Nenhum documento encontrado para o ID do Vencedor:", data.id_winner);
-                }
-              } catch (error) {
-                console.error("Erro ao buscar documentos:", error);
-              }
-              try {
-                const runnerUpDocRef = doc(db, "candidates", String(data.id_runnerUp));
-                const runnerUpDocSnapshot = await getDoc(runnerUpDocRef);
-
-                if (runnerUpDocSnapshot.exists()) {
-                  runnerUp = runnerUpDocSnapshot.data();
-                } else {
-                  console.log(
-                    "Nenhum documento encontrado para o ID do Vice-Vencedor:",
-                    data.id_winner
-                  );
-                }
-              } catch (error) {
-                console.error("Erro ao buscar documentos:", error);
-              }
-
-              resultData = {
-                ...resultData,
-                winner: winner
-                  ? { name: winner.name || "", votes: winner.votes || 0, image: winner.image || "" }
-                  : null,
-                runnerUp: runnerUp
-                  ? { name: runnerUp.name || "", votes: runnerUp.votes || 0 }
-                  : null,
-              };
+        if (homeworkActivitiesSnapshot.size > 0) {
+          const activities = [];
+          homeworkActivitiesSnapshot.forEach((doc) => {
+            const data = doc.data();
+            // Exclude the "counter" document
+            if (doc.id !== "counter") {
+              activities.push({
+                teacher: data.teacher || "",
+                title: data.title || "",
+                description: data.description || "",
+                class: data.class || "",
+              });
             }
-
-            allResults[classInput] = resultData;
-          } else {
-            console.warn(`No such document for class ${classInput}!`);
-          }
+          });
+          setHomeworkActivities(activities);
         }
-
-        setResults(allResults);
-        setLoading(false);
       } catch (error) {
-        console.error("Error fetching results: ", error);
-        setLoading(false);
+        console.error("Error fetching homework activities: ", error);
       }
+      setLoading(false);
     };
 
-    fetchResults();
+    fetchHomeworkActivities();
   }, []);
-
-  const downloadAsImage = () => {
-    if (gridRef && gridRef.current) {
-      const dateTime = new Date().toLocaleString().replace(/:|\//g, "-");
-      domtoimage
-        .toPng(gridRef.current)
-        .then((dataUrl) => {
-          const link = document.createElement("a");
-          link.download = `resultados-eleição-sesc-votes-${dateTime}.png`;
-          link.href = dataUrl;
-          link.click();
-        })
-        .catch((error) => {
-          console.error("Erro ao gerar a imagem:", error);
-          Swal.fire(
-            "Ops, algo deu errado!",
-            `Não se preocupe, estamos cientes do problema e já estamos trabalhando para resolvê-lo. ${error}`,
-            "warning"
-          );
-        });
-    }
-  };
 
   if (loading) {
     return (
@@ -126,107 +57,48 @@ function Dashboard() {
       />
     );
   }
+
   return (
     <>
-      <MKButton color="info" variant="gradient" onClick={downloadAsImage} fullWidth>
-        Baixar Resultado como Imagem
-      </MKButton>
-      <div ref={gridRef}>
-        <Grid container spacing={3} mt={1}>
-          {Object.entries(results).map(([classInput, result]) => (
-            <Grid key={classInput} item xs={12}>
-              <Grid container spacing={2}>
-                {/* Card do vencedor */}
-                <Grid item xs={12} lg={6}>
-                  <MKBox
-                    variant="gradient"
-                    borderRadius="10px"
-                    bgColor="dark"
-                    p={10}
-                    sx={{
-                      margin: "0 auto 20px",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Container>
-                      <Grid container spacing={2}>
-                        <Grid item xs={12} lg={9}>
-                          <MKTypography color="light" variant="h4">
-                            Líder: {classInput}
-                          </MKTypography>
-                          <MKTypography color="light" variant="subtitle1">
-                            Nome: {result.winner ? result.winner.name || "N/A" : "N/A"}
-                          </MKTypography>
-                          <MKTypography color="light" variant="subtitle1">
-                            Votos: {result.winner ? result.winner.votes || "N/A" : "N/A"}
-                          </MKTypography>
-                        </Grid>
-                        <Grid item xs={12} lg={3}>
-                          <Avatar
-                            id="preview-avatar"
-                            sx={{
-                              width: 120,
-                              height: 120,
-                              margin: "0 auto 20px",
-                              cursor: "pointer",
-                            }}
-                            alt="Candidate Photo"
-                            src={result.winner ? result.winner.image || "" : ""}
-                          />
-                        </Grid>
+      <MKBox>
+        {homeworkActivities.length > 0 ? (
+          <Grid container spacing={2}>
+            {homeworkActivities.map((activity, index) => (
+              <Grid item xs={12} key={index}>
+                <MKBox
+                  variant="gradient"
+                  borderRadius="10px"
+                  bgColor="secondary"
+                  p={10}
+                  sx={{
+                    margin: "0 auto 20px",
+                  }}
+                >
+                  <Container>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} lg={12}>
+                        <MKTypography color="light" variant="h4">
+                          {activity.title}
+                        </MKTypography>
+                        <MKTypography color="light" variant="subtitle1">
+                          Professor: {activity.teacher}
+                        </MKTypography>
+                        <MKTypography color="light" variant="subtitle1">
+                          Descrição: {activity.description}
+                        </MKTypography>
                       </Grid>
-                    </Container>
-                  </MKBox>
-                </Grid>
-                {/* Card do vice-líder */}
-                <Grid item xs={12} lg={6}>
-                  <MKBox
-                    variant="gradient"
-                    borderRadius="10px"
-                    bgColor="secondary"
-                    p={10}
-                    sx={{
-                      margin: "0 auto 20px",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Container>
-                      <Grid container spacing={2}>
-                        <Grid item xs={12} lg={9}>
-                          <MKTypography color="light" variant="h4">
-                            Vice-líder: {classInput}
-                          </MKTypography>
-                          <MKTypography color="light" variant="subtitle1">
-                            Nome: {result.runnerUp ? result.runnerUp.name || "N/A" : "N/A"}
-                          </MKTypography>
-                          <MKTypography color="light" variant="subtitle1">
-                            Votos: {result.runnerUp ? result.runnerUp.votes || "N/A" : "N/A"}
-                          </MKTypography>
-                        </Grid>
-                        <Grid item xs={12} lg={3}>
-                          <Avatar
-                            id="preview-avatar"
-                            sx={{
-                              width: 120,
-                              height: 120,
-                              margin: "0 auto 20px",
-                              cursor: "pointer",
-                            }}
-                            alt="Candidate Photo"
-                            src={result.runnerUp ? result.runnerUp.image || "" : ""}
-                          />
-                        </Grid>
-                      </Grid>
-                    </Container>
-                  </MKBox>
-                </Grid>
+                    </Grid>
+                  </Container>
+                </MKBox>
               </Grid>
-            </Grid>
-          ))}
-        </Grid>
-      </div>
+            ))}
+          </Grid>
+        ) : (
+          <MKAlert color="danger" variant="subtitle1">
+            Nenhuma atividade de casa encontrada.
+          </MKAlert>
+        )}
+      </MKBox>
     </>
   );
 }

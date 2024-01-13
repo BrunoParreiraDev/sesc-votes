@@ -24,7 +24,7 @@ function Results() {
               mb={10}
             >
               <MKTypography color="dark" variant="h2" mb={5}>
-                Resultado das Eleições
+                Atividades de Casa
               </MKTypography>
               <Grid item xs={12}>
                 <MKBox>
