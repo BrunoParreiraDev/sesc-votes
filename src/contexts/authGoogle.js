@@ -29,7 +29,7 @@ export const AuthToUse = ({ children }) => {
         Swal.fire({
           title: "Concluido!",
           text: "Redirecionando para a página de login!",
-          icon: "success",
+          icon: "info",
         }).then(() => (window.location = "/system/signin"));
       } else {
         Swal.fire("Entendido!", "Sem problemas, estamos por aqui se precisar!", "info").then(

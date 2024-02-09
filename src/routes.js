@@ -25,7 +25,7 @@ import HomeworkPage from "layouts/pages/system/homework";
 
 const user = JSON.parse(sessionStorage.getItem("@AuthFirebase:user"));
 
-const allowedUsers = JSON.parse(process.env.REACT_APP_ADMINS_UID || "[]");
+// const allowedUsers = JSON.parse(process.env.REACT_APP_ADMINS_UID || "[]");
 
 export const routes = [
   {
@@ -78,54 +78,54 @@ export const routes = [
     rowsPerColumn: 2,
     collapse: [
       {
-        name:
-          user && allowedUsers.includes(user.uid) ? "Ferramentas Admin" : "Ferramentas do Aluno",
-        collapse:
-          user && allowedUsers.includes(user.uid)
-            ? [
-                {
-                  name: "Votar",
-                  route: "/system/vote",
-                  component: <VotePage />,
-                },
-                {
-                  name: "Registrar Atividade para Casa",
-                  route: "/system/register/homework",
-                  component: <RegisterHomeworkPage />,
-                },
-                {
-                  name: "Registrar candidato",
-                  route: "/system/register",
-                  component: <RegisterPage />,
-                },
-                {
-                  name: "Resultados",
-                  route: "/system/results",
-                  component: <ResultsPage />,
-                },
-                {
-                  name: "Gráficos",
-                  route: "/system/charts",
-                  component: <ChartsPage />,
-                },
-                {
-                  name: "Instalar",
-                  route: "/system/download",
-                  component: <DownloadPage />,
-                },
-                {
-                  name: "Ver Tarefas de Casa",
-                  route: "/system/student/homework",
-                  component: <HomeworkPage />,
-                },
-              ]
-            : [
-                {
-                  name: "Ver Tarefas de Casa",
-                  route: "/system/student/homework",
-                  component: <HomeworkPage />,
-                },
-              ],
+        name: user //&& allowedUsers.includes(user.uid)
+          ? "Ferramentas Admin"
+          : "Ferramentas do Aluno",
+        collapse: user //&& allowedUsers.includes(user.uid)
+          ? [
+              {
+                name: "Votar",
+                route: "/system/vote",
+                component: <VotePage />,
+              },
+              {
+                name: "Registrar Atividade para Casa",
+                route: "/system/register/homework",
+                component: <RegisterHomeworkPage />,
+              },
+              {
+                name: "Registrar candidato",
+                route: "/system/register",
+                component: <RegisterPage />,
+              },
+              {
+                name: "Resultados",
+                route: "/system/results",
+                component: <ResultsPage />,
+              },
+              {
+                name: "Gráficos",
+                route: "/system/charts",
+                component: <ChartsPage />,
+              },
+              {
+                name: "Instalar",
+                route: "/system/download",
+                component: <DownloadPage />,
+              },
+              {
+                name: "Ver Tarefas de Casa",
+                route: "/system/student/homework",
+                component: <HomeworkPage />,
+              },
+            ]
+          : [
+              {
+                name: "Ver Tarefas de Casa",
+                route: "/system/student/homework",
+                component: <HomeworkPage />,
+              },
+            ],
       },
       {
         name: "Perfil",
